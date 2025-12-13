@@ -724,7 +724,7 @@ print((cum * 100).round(2).astype(str) + "%")
 ## Question 3: How many properties would be affected by the opposition’s proposal?
 
 ```{python}
-#Find all professional landlords' host_id
+#how many listings are affected
 pro_hosts = df[df['host_total_listings_count'] > 2]['host_id'].unique()
 #Filter all listings under these landlords' names
 affected_properties = df[df['host_id'].isin(pro_hosts)]
@@ -733,11 +733,18 @@ n_affected = len(affected_properties)
 #Compared to the entire Airbnb market
 total_listings = len(df)
 affected_ratio = n_affected / total_listings
-
-n_affected, affected_ratio
-print(f"There are {n_affected} hosts were impacted，which is {affected_ratio:.0%} of total.")
+print(f"There are {n_affected} listings were impacted，which is {affected_ratio:.0%} of total.")
 ```
 
+```{python}
+#How many hosts are affected
+affected_hosts = df[df['host_total_listings_count'] > 2]['host_id'].nunique()
+total_hosts = df['host_id'].nunique()
+
+affected_host_ratio = affected_hosts / total_hosts
+
+print(f"There are {affected_hosts} hosts were impacted，which is {affected_host_ratio:.0%} of total.")
+```
 
 ### 3.1 Distribution of affected listings by region
 
@@ -771,6 +778,42 @@ plt.ylabel('Latitude')
 plt.show()
 ```
 
+
+### 3.3 Affected host's Map
+
+```{python}
+#affected listings
+df['affected'] = df['host_total_listings_count'] > 2
+
+#Bring into spatial data
+affected_gdf = gpd.GeoDataFrame(df,geometry=gpd.points_from_xy(df.longitude, df.latitude),crs="EPSG:4326").to_crs(msoa.crs)
+#Spatial join to MSOA
+affected_msoa = gpd.sjoin(affected_gdf,msoa[['MSOA11CD', 'geometry']],how='left',predicate='within')
+#aggregate by MSOA
+msoa_affected_stats = (affected_msoa.groupby('MSOA11CD').agg(total_listings=('id', 'count'),affected_share=('affected', 'mean')).reset_index())
+
+# Merge back to MSOA polygons
+msoa_affected_map = msoa.merge(msoa_affected_stats,on='MSOA11CD',how='left')
+msoa_affected_map['affected_share'] = msoa_affected_map['affected_share'].fillna(0)
+
+```
+
+```{python}
+fig, ax = plt.subplots(figsize=(9,9))
+
+msoa_affected_map.plot(
+    column='affected_share',
+    cmap='Reds',
+    linewidth=0.1,
+    edgecolor='white',
+    legend=True,
+    ax=ax
+)
+
+ax.set_title("Proportion of Listings Affected by the Proposal")
+ax.set_axis_off()
+plt.show()
+```
 
 
 ## Question 4: What are the likely pros and cons of the opposition’s proposal (for the Mayor, for residents, and for the city)?
