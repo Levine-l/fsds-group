@@ -86,8 +86,6 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.cluster import KMeans
 ```
 
-
-
 ```{python}
 #Set the path of the data rather than in local.
 base= Path('.')
@@ -121,7 +119,151 @@ def download_data(src, dest):
     with dest.open("wb") as f:
         f.write(response.read())
     print(f"Data written to {dest}!")
+    return dest
+
+def load_listings():
+    local_path = download_data(DATA_URL, DATA_PATH)
+    return pd.read_csv(local_path)
+
+# print a few for test.
+df = load_listings()
+df.head()
 ```
+
+```{python}
+#Set the path of spatial data
+SPATIAL_DIR = base / 'data' / 'spatial'
+SPATIAL_DIR.mkdir(parents=True, exist_ok=True)
+```
+
+```{python}
+#make a function to download the spatial data
+def download_spatial(src_url, filename):
+    dest = SPATIAL_DIR / filename
+    if dest.exists():
+        print(f"{filename} found locally!")
+        return dest
+    
+    print(f"Downloading {filename}...")
+    response = urlopen(src_url)
+    with open(dest, 'wb') as f:
+        f.write(response.read())
+    print(f"Saved to {dest}")
+    
+    return dest
+
+#the url of every spatial data
+RAW_URLS = {
+    "boroughs": "https://raw.githubusercontent.com/jreades/fsds/master/data/src/Boroughs.gpkg",
+    "water": "https://raw.githubusercontent.com/jreades/fsds/master/data/src/Water.gpkg",
+    "greenspace": "https://raw.githubusercontent.com/jreades/fsds/master/data/src/Greenspace.gpkg",
+    "msoa": "https://orca.casa.ucl.ac.uk/~jreades/data/MSOA-2011.gpkg",
+    "msoa_names": "https://houseofcommonslibrary.github.io/msoanames/MSOA-Names-1.20.csv",
+}
+```
+
+```{python}
+# Download all spatial files defined in RAW_URLS
+local_paths = {}  # store downloaded paths
+
+for key, url in RAW_URLS.items():
+    filename = url.split("/")[-1]  # extract file name from URL
+    local_path = download_spatial(url, filename)
+    local_paths[key] = local_path  # store for later use
+```
+
+```{python}
+#define every spatial data
+boroughs = gpd.read_file(local_paths["boroughs"])
+msoa_origin = gpd.read_file(local_paths["msoa"])
+greenspace = gpd.read_file(local_paths["greenspace"])
+msoa_names = pd.read_csv(local_paths["msoa_names"])
+water= gpd.read_file(local_paths["water"])
+```
+
+```{python}
+#Because the main analysis is based on price, property type, number of listings from the landlord, and number of bookable nights, we are doing some data cleaning on that.
+#remove special character in price
+df['price'] = (df['price'].astype(str)
+        .str.replace("$", "", regex=False)
+        .str.replace(",", "", regex=False)
+        .replace("", None)
+        .astype(float)
+    )
+
+#remove invalid prices
+df = df[df['price'] > 0].copy()
+
+#keep valid availability range
+df = df[df['availability_365'].between(0, 365)]
+
+#drop listings without spatial coordinates
+df = df.dropna(subset=['latitude', 'longitude'])
+#fill missing host listing count
+df['host_total_listings_count'] = df['host_total_listings_count'].fillna(1)
+#because there are some extreme luxury house, may set a cap on price.
+df = df[df['price'] < 2000] #2000 maybe a proper price cap..
+```
+
+```{python}
+#merge the msoa data and msoa names
+msoa = msoa_origin.merge(
+    msoa_names,
+    left_on="MSOA11CD",
+    right_on="msoa11cd",
+    how="left"
+)
+```
+
+```{python}
+#In order to prepare for the future further analysis, transform the Airbnb data from df to gdf, check the crs, and then join with the msoa.
+#Read info about the msoa
+#msoa.head()
+msoa.crs
+```
+
+```{python}
+#Convert listings DataFrame to points
+gdf_listings = gpd.GeoDataFrame(df,
+                                geometry=gpd.points_from_xy(df['longitude'], df['latitude']),
+                                crs="EPSG:4326")
+
+#find if need to reproject listings to match msoa crs
+if msoa.crs is not None and gdf_listings.crs != msoa.crs:
+    gdf_listings = gdf_listings.to_crs(msoa.crs)
+
+gdf_listings.head()
+```
+
+```{python}
+#show msoa columns
+print(msoa.columns)
+```
+
+```{python}
+#Keep only geometry and MSOA identifiers for the join
+msoa_1 = msoa[['MSOA11CD', 'MSOA11NM', 'geometry']]
+
+#left join them
+listings_msoa = gpd.sjoin(gdf_listings,msoa_1,how='left',predicate='within')
+
+listings_msoa.head()
+```
+
+```{python}
+#Ensure availability_365 and price are numeric
+listings_msoa['availability_365'] = pd.to_numeric(listings_msoa['availability_365'])
+listings_msoa['price'] = pd.to_numeric(listings_msoa['price'])
+```
+
+```{python}
+#drop rows where MSOA11CD is missing (outside London polygons)
+listings_msoa = listings_msoa.dropna(subset=['MSOA11CD'])
+```
+
+
+
+
 ## Question 1: Is Airbnb out of control in London?
 
 To assess whether Airbnb in London is experiencing "over control", we may say some illegal renting or pricing may causing over control. 
