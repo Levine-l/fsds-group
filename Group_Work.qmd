@@ -517,6 +517,5 @@ plt.show()
 
 ## Question 5: Can the story be reframed as a positive one about social mobility or housing opportunity?
 
-####{{< include _questions.qmd >}}
 
 ## References
