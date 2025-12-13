@@ -154,9 +154,9 @@ over_90 = (df['availability_365'] > 90)
 over_180 = (df['availability_365'] > 180)
 over_300 = (df['availability_365'] > 300)
 
-print(f"Share of listings available > 90 days: {over_90.mean():.2%}")
-print(f"Share of listings available > 180 days: {over_180.mean():.2%}")
-print(f"Share of listings available > 300 days: {over_300.mean():.2%}")
+print(f"Ratio of listings available > 90 days: {over_90.mean():.2%}")
+print(f"Ratio of listings available > 180 days: {over_180.mean():.2%}")
+print(f"Ratio of listings available > 300 days: {over_300.mean():.2%}")
 ```
 
 ```{python}
@@ -164,7 +164,7 @@ print(f"Share of listings available > 300 days: {over_300.mean():.2%}")
 room_groups = df.groupby('room_type')['availability_365']
 
 over_90_by_room = room_groups.apply(lambda x: (x > 90).mean())
-print("Share of >90-day listings by room type:")
+print("Ratio of >90-day listings by room type:")
 print((over_90_by_room * 100).round(2).astype(str) + "%")
 ```
 
@@ -372,7 +372,7 @@ plt.show()
 
 ### 1.5 MSOA-Level Airbnb Activity in Westminster
 
-As shown in the map above, Westminster has the highest concentration of listings, so we chose this area for a more detailed MSOA-Level Airbnb Activity analysis.
+As shown in the map above, Westminster has the highest concentration of listings, so we zoom in this area for a more detailed MSOA-Level Airbnb Activity analysis.
 
 ```{python}
 #Only take the Borough polygon from Westminster.
