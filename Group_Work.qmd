@@ -724,7 +724,6 @@ print((cum * 100).round(2).astype(str) + "%")
 ## Question 3: How many properties would be affected by the opposition’s proposal?
 
 ```{python}
-#| scrolled: true
 #Find all professional landlords' host_id
 pro_hosts = df[df['host_total_listings_count'] > 2]['host_id'].unique()
 #Filter all listings under these landlords' names
@@ -736,10 +735,11 @@ total_listings = len(df)
 affected_ratio = n_affected / total_listings
 
 n_affected, affected_ratio
+print(f"There are {n_affected} hosts were impacted，which is {affected_ratio:.0%} of total.")
 ```
 
 
-### 3.1 A bar chart showing the distribution of affected listings by region
+### 3.1 Distribution of affected listings by region
 
 ```{python}
 affected_by_area = (
