@@ -67,6 +67,61 @@ Are there any areas on which you would appreciate more detailed feedback if we'r
 
 # Briefing
 
+
+```{python}
+#Start data loading and preprocessing
+from conf import *
+from ydata_profiling import ProfileReport
+from pathlib import Path
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from urllib.request import urlopen
+from functools import wraps
+import geopandas as gpd
+from shapely.geometry import Point
+from sklearn.neighbors import KernelDensity
+import contextily as cx
+from sklearn.preprocessing import StandardScaler
+from sklearn.cluster import KMeans
+```
+
+
+
+```{python}
+#Set the path of the data rather than in local.
+base= Path('.')
+DATA_DIR = base / "data" / "clean"
+DATA_DIR.mkdir(parents=True, exist_ok=True)
+#The Airbnb data
+DATA_URL = "https://orca.casa.ucl.ac.uk/~jreades/data/20250615-London-listings.csv.gz"
+DATA_PATH = DATA_DIR / "20250615-London-listings.csv.gz"
+```
+
+```{python}
+#Wrap the download data function with the decorato, and
+#download the Airbnb data.
+def check_cache(f):
+    @wraps(f)
+    def wrapper(src, dest):
+        dest = Path(dest)
+        if dest.exists() and dest.is_file():
+            print(f"{dest} found locally!")
+            return dest
+        else:
+            print(f"{dest} not found, downloading!")
+            return f(src, dest)
+    return wrapper
+
+@check_cache
+def download_data(src, dest):
+    dest = Path(dest)
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    response = urlopen(src)
+    with dest.open("wb") as f:
+        f.write(response.read())
+    print(f"Data written to {dest}!")
+```
 ## Question 1: Is Airbnb out of control in London?
 
 ## Question 2: How many professional landlords are there?
