@@ -6,6 +6,7 @@ title: Emberfire's Group Project
 execute:
   echo: false
   freeze: true
+  warning: false
 format:
   html:
     code-copy: true
