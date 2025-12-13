@@ -69,6 +69,7 @@ Are there any areas on which you would appreciate more detailed feedback if we'r
 
 
 ```{python}
+#| output: false
 #Start data loading and preprocessing
 from conf import *
 from ydata_profiling import ProfileReport
@@ -87,6 +88,7 @@ from sklearn.cluster import KMeans
 ```
 
 ```{python}
+#| output: false
 #Set the path of the data rather than in local.
 base= Path('.')
 DATA_DIR = base / "data" / "clean"
@@ -97,6 +99,7 @@ DATA_PATH = DATA_DIR / "20250615-London-listings.csv.gz"
 ```
 
 ```{python}
+#| output: false
 #Wrap the download data function with the decorato, and
 #download the Airbnb data.
 def check_cache(f):
@@ -131,12 +134,14 @@ df.head()
 ```
 
 ```{python}
+#| output: false
 #Set the path of spatial data
 SPATIAL_DIR = base / 'data' / 'spatial'
 SPATIAL_DIR.mkdir(parents=True, exist_ok=True)
 ```
 
 ```{python}
+#| output: false
 #make a function to download the spatial data
 def download_spatial(src_url, filename):
     dest = SPATIAL_DIR / filename
@@ -163,6 +168,7 @@ RAW_URLS = {
 ```
 
 ```{python}
+#| output: false
 # Download all spatial files defined in RAW_URLS
 local_paths = {}  # store downloaded paths
 
@@ -216,6 +222,7 @@ msoa = msoa_origin.merge(
 ```
 
 ```{python}
+#| output: false
 #In order to prepare for the future further analysis, transform the Airbnb data from df to gdf, check the crs, and then join with the msoa.
 #Read info about the msoa
 #msoa.head()
@@ -223,6 +230,7 @@ msoa.crs
 ```
 
 ```{python}
+#| output: false
 #Convert listings DataFrame to points
 gdf_listings = gpd.GeoDataFrame(df,
                                 geometry=gpd.points_from_xy(df['longitude'], df['latitude']),
@@ -236,11 +244,13 @@ gdf_listings.head()
 ```
 
 ```{python}
+#| output: false
 #show msoa columns
 print(msoa.columns)
 ```
 
 ```{python}
+#| output: false
 #Keep only geometry and MSOA identifiers for the join
 msoa_1 = msoa[['MSOA11CD', 'MSOA11NM', 'geometry']]
 
@@ -407,6 +417,7 @@ coords = np.vstack([gdf_kde.geometry.x,gdf_kde.geometry.y]).T#transpose the matr
 ```
 
 ```{python}
+#| output: false
 #set a bandwidth to 750m in epsg27700
 bandwidth = 750
 kde = KernelDensity(bandwidth=bandwidth, kernel='gaussian')
