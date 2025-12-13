@@ -124,6 +124,391 @@ def download_data(src, dest):
 ```
 ## Question 1: Is Airbnb out of control in London?
 
+To assess whether Airbnb in London is experiencing "over control", we may say some illegal renting or pricing may causing over control. 
+
+### 1.1 90-days rule
+There is a 90 days regulation(also known as short-let regulation)(https://www.nestify.co.uk/article/90-day-rule/), Short-term rentals are permitted for a maximum of 90 days a year, exceeding this period requires a special permit. So are the Airbnb hosts against this policy will be a perspect.
+
+```{python}
+#The availability_365 distribution can indicate 
+#whether Airbnb in London is a "seasonal short-term rental" 
+#(low availability) or a "year-round operation" 
+#(high availability).
+
+# Plot distribution of availability_365
+plt.figure(figsize=(10, 7))
+plt.hist(df['availability_365'], bins=50, color='steelblue')
+plt.xlabel("available days a year)")
+plt.ylabel("Count of listings")
+plt.title("Distribution of Airbnb availability in London")
+plt.show()
+```
+
+
+```{python}
+#availability_365 > 90 is a potential key element
+#of illegal hosting. 
+
+#count the number of listing over 90, 180 and 300.
+over_90 = (df['availability_365'] > 90)
+over_180 = (df['availability_365'] > 180)
+over_300 = (df['availability_365'] > 300)
+
+print(f"Share of listings available > 90 days: {over_90.mean():.2%}")
+print(f"Share of listings available > 180 days: {over_180.mean():.2%}")
+print(f"Share of listings available > 300 days: {over_300.mean():.2%}")
+```
+
+```{python}
+# Compare availability patterns across room types
+room_groups = df.groupby('room_type')['availability_365']
+
+over_90_by_room = room_groups.apply(lambda x: (x > 90).mean())
+print("Share of >90-day listings by room type:")
+print((over_90_by_room * 100).round(2).astype(str) + "%")
+```
+
+```{python}
+#plot ratio of property type >90
+ax = over_90_by_room.plot(kind='bar', figsize=(10, 7), color='steelblue')
+ax.set_xlabel("property Type")
+ax.set_ylabel("Ratio of listings > 90 days")
+ax.set_title("Ratio of listings exceeding 90 days by room type")
+plt.xticks(rotation=0)
+plt.show()
+```
+
+```{python}
+#Also can look at the price level of those over 90 days a year.
+df['over_90'] = df['availability_365'] > 90
+
+plt.figure(figsize=(8, 5))
+df.boxplot(column='price', by='over_90')
+plt.title("Airbnb price distribution by >90-day availability")
+plt.suptitle("")
+plt.xlabel("Over 90 days available?")
+plt.ylabel("Price (£)")
+plt.show()
+```
+
+
+### 1.2 Price level
+
+Price level of Airbnb in London is another key aspect to indicate if airbnb out of control.
+
+```{python}
+#Plot distribution of Airbnb prices
+plt.figure(figsize=(10, 7))
+plt.hist(df['price'], bins=50, color='teal')
+plt.xlabel("Price (£)")
+plt.ylabel("Count of listings")
+plt.title("Distribution of Airbnb Prices in London (under £1000)")
+plt.show()
+```
+
+```{python}
+#Look at some statistics on price
+print("Price summary statistics:")
+print(df['price'].describe())
+```
+
+```{python}
+#We set a price level that ober 200 a night 
+#could be "higher than usual", It may deviate from 
+#Airbnb's original purpose.
+
+high_price = df['price'] > 200
+print(f"Share of listings priced > £200: {high_price.mean():.2%}")
+#Shows price over 200 by room type.
+high_price_by_type = df.groupby('room_type')['price'].apply(lambda x: (x > 200).mean())
+print("\nShare of >£200 listings by room type:")
+print((high_price_by_type * 100).round(2).astype(str) + "%")
+```
+
+```{python}
+#Combine with the 90 days rule, count the ratio that
+#satisfy over 200 a night and 90 a year.
+df['over_90'] = df['availability_365'] > 90
+df['high_price'] = df['price'] > 200
+df['high_high'] = df['over_90'] & df['high_price']
+
+print(f"Share of listings both >90 days and >£200: {df['high_high'].mean():.2%}")
+```
+
+
+### 1.3 Kernel Density Estimation
+
+In order to understand the spatial distribution pattern of Airbnb in London, we decided to use KDE to observe the overall trend of spatial intensity.
+
+```{python}
+#Firstly, aggregate listing data to the mosa level
+listings_msoa['over_90'] = listings_msoa['availability_365'] > 90
+msoa_stats_q1 = listings_msoa.groupby('MSOA11CD').agg(
+    n_listings=('price', 'size'),#number of listing for every msoa
+    ratio_over_90=('over_90', 'mean'),#ratio of listing >90 days
+    mean_price=('price', 'mean')#mean price
+).reset_index()
+
+msoa_stats_q1.head()
+```
+
+```{python}
+#Convert listing points to EPSG:27700 for KDE
+gdf_kde = gdf_listings.to_crs(epsg=27700)
+#gdf_kde.head()
+```
+
+```{python}
+#extract coordinates for KDE
+coords = np.vstack([gdf_kde.geometry.x,gdf_kde.geometry.y]).T#transpose the matrix for kde
+#coords[:5]#show some of the matrix to check if success
+```
+
+```{python}
+#set a bandwidth to 750m in epsg27700
+bandwidth = 750
+kde = KernelDensity(bandwidth=bandwidth, kernel='gaussian')
+kde.fit(coords)
+```
+
+```{python}
+# Create grid over bounding of London
+x_min, y_min, x_max, y_max = gdf_kde.total_bounds
+xgrid = np.linspace(x_min, x_max, 200)
+ygrid = np.linspace(y_min, y_max, 200)
+xx, yy = np.meshgrid(xgrid, ygrid)
+grid_points = np.vstack([xx.ravel(), yy.ravel()]).T
+```
+
+```{python}
+# Evaluate KDE on grid
+z = np.exp(kde.score_samples(grid_points))
+z = z.reshape(xx.shape)
+```
+
+```{python}
+#plot the KDE
+plt.figure(figsize=(10, 7))
+plt.imshow(z,origin='lower',extent=(x_min, x_max, y_min, y_max),cmap='hot',alpha=0.7)#I think brighter is easier to see.
+
+#Because only KDE is hard to analysis, we add London boundary onto it.
+boroughs.to_crs(epsg=27700).boundary.plot(ax=plt.gca(),color='white',linewidth=0.8)
+
+plt.title("Kernel Density of Airbnb in London")
+plt.colorbar(label='Density')
+plt.axis('off')
+plt.show()
+```
+
+```{python}
+plt.figure(figsize=(10, 7))
+plt.imshow(z,origin='lower',extent=(x_min, x_max, y_min, y_max),cmap='hot',alpha=0.7)
+boroughs.to_crs(epsg=27700).boundary.plot(ax=plt.gca(),color='white',linewidth=0.8)
+#Above code is same with the code in the upper chunk
+
+#I zoom into the city centre this time
+plt.xlim(515000, 540000)
+plt.ylim(170000, 190000)
+
+
+plt.title("Kernel Density of Airbnb in London")
+plt.colorbar(label='Density')
+plt.axis('off')
+plt.show()
+```
+
+
+### 1.4 Airbnb Distribution in London
+
+This map provides a descriptive overview of the spatial concentration of Airbnb listings across London boroughs. While it does not constitute a formal hotspot analysis, the strong visual clustering suggests that Airbnb activity is highly uneven and concentrated in specific inner-city areas.
+
+```{python}
+gdf_la = gpd.sjoin(
+    gdf_listings,
+    boroughs[["NAME", "geometry"]],
+    predicate="within",
+    how="left"
+)
+
+# check it
+gdf_la[["id", "NAME"]].head()
+```
+
+```{python}
+borough_stats = (
+    gdf_la.groupby('NAME')
+          .agg(
+              total_listings=('id', 'nunique'),
+              multi_lister_share=(
+                  'host_total_listings_count',
+                  lambda x: (x > 2).mean()
+              )
+          )
+          .sort_values('total_listings', ascending=False)
+)
+
+borough_stats
+```
+
+```{python}
+fig, ax = plt.subplots(figsize=(9,7))
+
+# Click to color the name Borough
+gdf_la.plot(column='NAME', markersize=0.5, alpha=0.5, ax=ax)
+
+# Borough boundary
+boroughs.plot(ax=ax, edgecolor='r', facecolor='None', alpha=0.5)
+
+ax.set_title(
+    "Spatial Distribution of Airbnb Listings by London Borough",
+    fontsize=16,
+    pad=12
+)
+
+ax.set_axis_off()
+plt.show()
+```
+
+
+### 1.5 MSOA-Level Airbnb Activity in Westminster
+
+As shown in the map above, Westminster has the highest concentration of listings, so we chose this area for a more detailed MSOA-Level Airbnb Activity analysis.
+
+```{python}
+#Only take the Borough polygon from Westminster.
+LA = "Westminster"
+west_boro = boroughs[boroughs["NAME"] == LA].copy()
+print("Westminster polygon number:", len(west_boro))
+
+#Use Westminster polygon to crop MSOA (only keep MSOAs in Westminster).
+msoa_west = gpd.clip(msoa, west_boro)
+print("The number of MSOA in Westminster:", len(msoa_west))
+
+pts_west_msoa = gpd.sjoin(
+    gdf_listings,
+    msoa_west[["MSOA11CD", "MSOA11NM", "geometry"]],
+    predicate="within",
+    how="inner"     # just need the spots in MSOA
+)
+print("The number of listings in Westminster:", len(pts_west_msoa))
+
+#Statistics by MSOA: How many listings are there per MSOA?
+msoa_stats = (
+    pts_west_msoa
+      .groupby(["MSOA11CD", "MSOA11NM"])
+      .size()
+      .reset_index(name="listing_count")
+)
+print("\nExample of MSOA statistics in Westminster：")
+print(msoa_stats.head())
+
+#Merge listing_count back into Westminster's MSOA polygon
+msoa_west_counts = msoa_west.merge(
+    msoa_stats,
+    on=["MSOA11CD", "MSOA11NM"],
+    how="left"
+)
+
+#For MSOA without a listing, enter 0.
+msoa_west_counts["listing_count"] = msoa_west_counts["listing_count"].fillna(0)
+
+#Convert to Web Mercator for overlaying background images
+msoa_west_3857 = msoa_west_counts.to_crs(epsg=3857)
+
+#plot：MSOA-Level Airbnb Activity in Westminster
+fig, ax = plt.subplots(figsize=(8, 8))
+msoa_west_3857.plot(
+    column="listing_count",
+    cmap="OrRd",
+    linewidth=0.4,
+    edgecolor="white",
+    legend=True,
+    ax=ax,
+    alpha=0.85
+)
+cx.add_basemap(ax, source=cx.providers.CartoDB.Positron)
+ax.set_axis_off()
+ax.set_title("MSOA-Level Airbnb Activity in Westminster", fontsize=16)
+plt.show()
+```
+
+
+### 1.6 MSOA-level CLustering
+
+To identify the spatial types of Airbnb activities in London, we selected three variables at the MSOA level to do clustering.
+
+```{python}
+#features for clustering
+features = msoa_stats_q1[['ratio_over_90', 'n_listings', 'mean_price']].copy()
+# Replace missing values with 0
+features = features.fillna(0)
+features.describe()
+```
+
+```{python}
+#Because there is a large difference between the value of those three variables, 
+#we need to do a standardisation.
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(features)
+```
+
+```{python}
+#Use KMeans as the clustering method
+kmeans = KMeans(n_clusters=3, random_state=42,n_init=10)#I choose 3 because it's kinda moderate.
+clusters = kmeans.fit_predict(X_scaled)
+
+msoa_stats_q1['cluster'] = clusters
+msoa_stats_q1['cluster'].value_counts()
+```
+
+```{python}
+#Comparing mean value of cluster for those three variables.
+cluster_profile = (msoa_stats_q1.groupby('cluster')[['ratio_over_90', 'n_listings', 'mean_price']].mean().round(3))
+
+cluster_profile
+```
+
+```{python}
+#add a lable to cluster
+cluster_labels = {
+    0: "High Airbnb represent areas",
+    1: "Moderate Airbnb activity areas",
+    2: "Low Airbnb presence areas"
+}
+
+msoa_stats_q1['cluster_label'] = msoa_stats_q1['cluster'].map(cluster_labels)
+```
+
+```{python}
+#keep only geometry and identifier for mapping
+msoa_min=msoa[['MSOA11CD','MSOA11NM','geometry']].copy()
+#attach cluster labels to msoa
+msoa_stats_q1['cluster']=clusters
+```
+
+```{python}
+#merge cluster results back onto msoa polygon
+msoa_ready=msoa_min.merge(msoa_stats_q1,on='MSOA11CD',how='left')
+```
+
+```{python}
+#Plot a graph of MSOA-level Airbnb area types based on clustering.
+fig, ax = plt.subplots(figsize=(10,7))
+
+msoa_ready.plot(
+    column='cluster_label',
+    categorical=True,
+    legend=True,
+    ax=ax,
+    linewidth=0.1,
+    edgecolor='white'
+)
+
+ax.set_axis_off()
+ax.set_title("MSOA-level Airbnb Typologies (Clustering)")
+plt.show()
+```
+
 ## Question 2: How many professional landlords are there?
 
 ## Question 3: How many properties would be affected by the opposition’s proposal?
