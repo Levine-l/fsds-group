@@ -279,7 +279,7 @@ listings_msoa = listings_msoa.dropna(subset=['MSOA11CD'])
 To assess whether Airbnb in London is experiencing "over control", we may say some illegal renting or pricing may causing over control. 
 
 ### 1.1 90-days rule
-There is a 90 days regulation(also known as short-let regulation)(https://www.nestify.co.uk/article/90-day-rule/), Short-term rentals are permitted for a maximum of 90 days a year, exceeding this period requires a special permit. So are the Airbnb hosts against this policy will be a perspect.
+There is a 90 days regulation, also known as short-let regulation (@90_day_rule), Short-term rentals are permitted for a maximum of 90 days a year, exceeding this period requires a special permit. So are the Airbnb hosts against this policy will be a perspect.
 
 ```{python}
 #The availability_365 distribution can indicate 
