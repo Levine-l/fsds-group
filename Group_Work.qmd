@@ -723,6 +723,56 @@ print((cum * 100).round(2).astype(str) + "%")
 
 ## Question 3: How many properties would be affected by the opposition’s proposal?
 
+```{python}
+#| scrolled: true
+#Find all professional landlords' host_id
+pro_hosts = df[df['host_total_listings_count'] > 2]['host_id'].unique()
+#Filter all listings under these landlords' names
+affected_properties = df[df['host_id'].isin(pro_hosts)]
+#Calculate the number of affected properties
+n_affected = len(affected_properties)
+#Compared to the entire Airbnb market
+total_listings = len(df)
+affected_ratio = n_affected / total_listings
+
+n_affected, affected_ratio
+```
+
+
+### 3.1 A bar chart showing the distribution of affected listings by region
+
+```{python}
+affected_by_area = (
+    affected_properties.groupby('neighbourhood_cleansed')
+                       .size()
+                       .reset_index(name='n_affected')
+                       .sort_values('n_affected', ascending=False)
+)
+
+plt.figure(figsize=(10,6))
+plt.bar(affected_by_area['neighbourhood_cleansed'], affected_by_area['n_affected'])
+plt.xticks(rotation=90)
+plt.ylabel('Number of Affected Listings')
+plt.title('Affected Listings by Neighbourhood')
+plt.show()
+```
+
+### 3.2 Display the location of professional landlord listings on a map
+
+```{python}
+plt.figure(figsize=(7,7))
+plt.scatter(df['longitude'], df['latitude'], s=2, alpha=0.1, label='All Listings')
+plt.scatter(affected_properties['longitude'], affected_properties['latitude'], s=4, color='red', alpha=0.5, label='Affected Listings')
+
+plt.legend()
+plt.title('Spatial Distribution of Affected Listings (Professional Landlords)')
+plt.xlabel('Longitude')
+plt.ylabel('Latitude')
+plt.show()
+```
+
+
+
 ## Question 4: What are the likely pros and cons of the opposition’s proposal (for the Mayor, for residents, and for the city)?
 
 ## Question 5: Can the story be reframed as a positive one about social mobility or housing opportunity?
