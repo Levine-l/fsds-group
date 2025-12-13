@@ -664,6 +664,63 @@ plt.show()
 
 ## Question 2: How many professional landlords are there?
 
+To assess whether Airbnb in London is experiencing "over control", we may say a host with multiple renting houses are over-commercialisation is causing over control. So start with analyzed the number of listings available from each host.
+
+```{python}
+#calculate proportion of hosts with more than 2 listings
+host_counts = df['host_total_listings_count']
+multiratio = (host_counts > 2).mean()
+print(f"Ratio of hosts with >2 listings: {multiratio:.2%}")
+
+#Define bin and labels（menas how houses many a host renting)
+bins = [0, 1, 4, 9, 19, 49, 999]
+labels = ["1", "2–4", "5–9", "10–19", "20–49", "50+"]
+
+# Create categorical bin column
+df['host_bin'] = pd.cut(host_counts, bins=bins, labels=labels)
+# Compute the ratio of hosts
+dist = (df['host_bin'].value_counts(normalize=True).sort_index())
+#plot
+ax = dist.plot(kind='bar', figsize=(10, 7))
+ax.set_xlabel("Number of listings owned by host")
+ax.set_ylabel("Proportion of hosts")
+ax.set_title("Distribution of Airbnb listings owned by host")
+plt.show()
+```
+
+```{python}
+#proportion of hosts with > 2 listings
+host_level = df.groupby('host_id')['host_total_listings_count'].max()
+multi_host_share = (host_level > 2).mean()
+print(f"Proportion of multi-lister hosts (>2 listings): {multi_host_share:.2%}")
+
+#proportion of listings owned by multi-listers
+listing_multi_share = (df['host_total_listings_count'] > 2).mean()
+print(f"Proportion of listings owned by multi-listers: {listing_multi_share:.2%}")
+```
+
+```{python}
+#Make a cumulative distribution
+#compute cumulative ratio across host-size bins
+cum = dist.cumsum()
+#graph fitting
+fig, ax1 = plt.subplots(figsize=(10, 7))
+# Plot a same graph above
+ax1.bar(dist.index, dist.values, label="Bin share")
+ax1.set_xlabel("Number of listings owned by host")
+ax1.set_ylabel("Proportion of hosts")
+#Create another axis for cumulative line plot
+ax2 = ax1.twinx()
+ax2.plot(cum.index, cum.values, color="red", marker="o", label="Cumulative ratio")
+ax2.set_ylabel("Cumulative ratio")
+plt.show()
+#Print cumulative ratio values
+print("Cumulative share by bin:")
+print((cum * 100).round(2).astype(str) + "%")
+```
+
+
+
 ## Question 3: How many properties would be affected by the opposition’s proposal?
 
 ## Question 4: What are the likely pros and cons of the opposition’s proposal (for the Mayor, for residents, and for the city)?
