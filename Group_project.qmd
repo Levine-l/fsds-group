@@ -201,17 +201,8 @@ listings_msoa = listings_msoa.dropna(subset=['MSOA11CD'])
 
 To assess whether Airbnb in London is experiencing "over control", we may say some illegal renting or pricing may causing over control. 
 
-```{python}
-from IPython.display import display_markdown
-
-def as_markdown(head='', body='Some body text'):
-    if head != '':
-        display_markdown(f"##### {head}\n\n>{body}\n", raw=True)
-    else:
-        display_markdown(f">{body}\n", raw=True)
-
-as_markdown('1.1 90-days rule', "There is a 90 days regulation(also known as short-let regulation)(https://www.nestify.co.uk/article/90-day-rule/), Short-term rentals are permitted for a maximum of 90 days a year, exceeding this period requires a special permit.  so are the Airbnb hosts against this policy will be a perspect.")
-```
+### 1.1 90-days rule
+There is a 90 days regulation(also known as short-let regulation)(https://www.nestify.co.uk/article/90-day-rule/), Short-term rentals are permitted for a maximum of 90 days a year, exceeding this period requires a special permit. So are the Airbnb hosts against this policy will be a perspect.
 
 ```{python}
 #The availability_365 distribution can indicate 
@@ -227,6 +218,7 @@ plt.ylabel("Count of listings")
 plt.title("Distribution of Airbnb availability in London")
 plt.show()
 ```
+
 
 ```{python}
 #availability_365 > 90 is a potential key element
@@ -274,9 +266,10 @@ plt.ylabel("Price (£)")
 plt.show()
 ```
 
-```{python}
-as_markdown('1.2 Price level','Price level of Airbnb in London is another key aspect to indicate if airbnb out of control.')
-```
+
+### 1.2 Price level
+
+Price level of Airbnb in London is another key aspect to indicate if airbnb out of control.
 
 ```{python}
 #Plot distribution of Airbnb prices
@@ -314,12 +307,13 @@ df['over_90'] = df['availability_365'] > 90
 df['high_price'] = df['price'] > 200
 df['high_high'] = df['over_90'] & df['high_price']
 
-print(f"Share of listings both >90 days and >£150: {df['high_high'].mean():.2%}")
+print(f"Share of listings both >90 days and >£200: {df['high_high'].mean():.2%}")
 ```
 
-```{python}
-as_markdown("1.3 Kernel Density Estimation","In order to understand the spatial distribution pattern of Airbnb in London, we decided to use KDE to observe the overall trend of spatial intensity.")
-```
+
+### 1.3 Kernel Density Estimation
+
+In order to understand the spatial distribution pattern of Airbnb in London, we decided to use KDE to observe the overall trend of spatial intensity.
 
 ```{python}
 #Firstly, aggregate listing data to the mosa level
@@ -398,9 +392,10 @@ plt.axis('off')
 plt.show()
 ```
 
-```{python}
-as_markdown("1.4 Airbnb Distribution","This map provides a descriptive overview of the spatial concentration of Airbnb listings across London boroughs. While it does not constitute a formal hotspot analysis, the strong visual clustering suggests that Airbnb activity is highly uneven and concentrated in specific inner-city areas.")
-```
+
+### 1.4 Airbnb Distribution in London
+
+This map provides a descriptive overview of the spatial concentration of Airbnb listings across London boroughs. While it does not constitute a formal hotspot analysis, the strong visual clustering suggests that Airbnb activity is highly uneven and concentrated in specific inner-city areas.
 
 ```{python}
 gdf_la = gpd.sjoin(
@@ -449,9 +444,10 @@ ax.set_axis_off()
 plt.show()
 ```
 
-```{python}
-as_markdown("1.5 MSOA-Level Airbnb Activity in Westminster","As shown in the map above, Westminster has the highest concentration of listings, so we chose this area for a more detailed MSOA-Level Airbnb Activity analysis.")
-```
+
+### 1.5 MSOA-Level Airbnb Activity in Westminster
+
+As shown in the map above, Westminster has the highest concentration of listings, so we chose this area for a more detailed MSOA-Level Airbnb Activity analysis.
 
 ```{python}
 #Only take the Borough polygon from Westminster.
@@ -511,9 +507,10 @@ ax.set_title("MSOA-Level Airbnb Activity in Westminster", fontsize=16)
 plt.show()
 ```
 
-```{python}
-as_markdown("1.6 MSOA-level CLustering","To identify the spatial types of Airbnb activities in London, we selected three variables at the MSOA level to do clustering.")
-```
+
+### 1.6 MSOA-level CLustering
+
+To identify the spatial types of Airbnb activities in London, we selected three variables at the MSOA level to do clustering.
 
 ```{python}
 #features for clustering
