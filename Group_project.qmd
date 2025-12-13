@@ -117,10 +117,8 @@ msoa_names = pd.read_csv(local_paths["msoa_names"])
 water= gpd.read_file(local_paths["water"])
 ```
 
-Because the main analysis is based on price, property type, number of listings from the landlord, and number of bookable nights, we are doing some data cleaning on that.
-
 ```{python}
-#Here are some data cleaning of Airbnb data
+#Because the main analysis is based on price, property type, number of listings from the landlord, and number of bookable nights, we are doing some data cleaning on that.
 #remove special character in price
 df['price'] = (df['price'].astype(str)
         .str.replace("$", "", regex=False)
@@ -153,9 +151,8 @@ msoa = msoa_origin.merge(
 )
 ```
 
-In order to prepare for the future further analysis, transform the Airbnb data from df to gdf, check the crs, and then join with the msoa.
-
 ```{python}
+#In order to prepare for the future further analysis, transform the Airbnb data from df to gdf, check the crs, and then join with the msoa.
 #Read info about the msoa
 #msoa.head()
 msoa.crs
