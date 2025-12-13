@@ -476,6 +476,7 @@ plt.show()
 This map provides a descriptive overview of the spatial concentration of Airbnb listings across London boroughs. While it does not constitute a formal hotspot analysis, the strong visual clustering suggests that Airbnb activity is highly uneven and concentrated in specific inner-city areas.
 
 ```{python}
+#| output: false
 gdf_la = gpd.sjoin(
     gdf_listings,
     boroughs[["NAME", "geometry"]],
@@ -488,6 +489,7 @@ gdf_la[["id", "NAME"]].head()
 ```
 
 ```{python}
+#| output: false
 borough_stats = (
     gdf_la.groupby('NAME')
           .agg(
@@ -502,6 +504,41 @@ borough_stats = (
 
 borough_stats
 ```
+```{python}
+# Select top 10 boroughs by total listings
+top_boroughs = borough_stats.head(10)
+
+fig, ax1 = plt.subplots(figsize=(10, 6))
+
+# Bar plot: total listings
+ax1.bar(
+    top_boroughs.index,
+    top_boroughs['total_listings'],
+    color='steelblue',
+    alpha=0.8
+)
+ax1.set_ylabel('Total number of listings')
+ax1.set_xlabel('London borough')
+ax1.set_xticklabels(top_boroughs.index, rotation=45, ha='right')
+
+# Line plot: share of multi-lister hosts
+ax2 = ax1.twinx()
+ax2.plot(
+    top_boroughs.index,
+    top_boroughs['multi_lister_share'],
+    color='darkred',
+    marker='o'
+)
+ax2.set_ylabel('Ratio of listings from multi-lister hosts')
+
+plt.title('Airbnb concentration and professionalisation by borough (Top 10)')
+plt.tight_layout()
+plt.show()
+```
+From this plot we can simply see, boroughs with the highest number of Airbnb listings also tend to have higher ratio of multi-lister hosts, suggesting that spatial concentration and professionalisation often happen at the same time.
+
+
+
 
 ```{python}
 fig, ax = plt.subplots(figsize=(9,7))
