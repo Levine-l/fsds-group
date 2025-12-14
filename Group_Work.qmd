@@ -883,6 +883,26 @@ print((cum * 100).round(2).astype(str) + "%")
 
 
 ## Question 3: How many properties would be affected by the opposition’s proposal?
+To determine the number of properties affected, we first need to filter out professional landlords, as the opposition proposal only applies to them. Secondly, the extent to which professional landlords are affected depends on the number of properties they own. Therefore, we can assess the degree of impact by counting the number of properties owned by different professional landlords.
+
+
+### 3.1 Distribution of affected listings by region
+
+```{python}
+affected_by_area = (
+    affected_properties.groupby('neighbourhood_cleansed')
+                       .size()
+                       .reset_index(name='n_affected')
+                       .sort_values('n_affected', ascending=False)
+)
+
+plt.figure(figsize=(10,6))
+plt.bar(affected_by_area['neighbourhood_cleansed'], affected_by_area['n_affected'])
+plt.xticks(rotation=90)
+plt.ylabel('Number of Affected Listings')
+plt.title('Affected Listings by Neighbourhood')
+plt.show()
+```
 
 ```{python}
 #how many listings are affected
@@ -904,25 +924,7 @@ total_hosts = df['host_id'].nunique()
 
 affected_host_ratio = affected_hosts / total_hosts
 
-print(f"There are {affected_hosts} hosts were impacted，which is {affected_host_ratio:.0%} of total.")
-```
-
-### 3.1 Distribution of affected listings by region
-
-```{python}
-affected_by_area = (
-    affected_properties.groupby('neighbourhood_cleansed')
-                       .size()
-                       .reset_index(name='n_affected')
-                       .sort_values('n_affected', ascending=False)
-)
-
-plt.figure(figsize=(10,6))
-plt.bar(affected_by_area['neighbourhood_cleansed'], affected_by_area['n_affected'])
-plt.xticks(rotation=90)
-plt.ylabel('Number of Affected Listings')
-plt.title('Affected Listings by Neighbourhood')
-plt.show()
+print(f"And there are {affected_hosts} hosts were impacted，which is {affected_host_ratio:.0%} of total.")
 ```
 
 ### 3.2 Display the location of professional landlord listings on a map
@@ -975,6 +977,14 @@ ax.set_title("Proportion of Listings Affected by the Proposal")
 ax.set_axis_off()
 plt.show()
 ```
+
+### Conlusion
+From the first paragraph, the opposition's proposal will have a significant impact on the Airbnb market in London. Although only about 35% of hosts will be affected, but these hosts control about 65% of the housing, indicating that the proposal is mainly aimed at a small number of highly commercialised operators, not casual home sharers.
+
+Spatially, in distribution map, the distribution of the affected housing resources is extremely uneven. The impact is concentrated in central London and little part of marginal area, especially in areas previously recognised as Airbnb hotspots. Therefore, we can say that the proposal is spatially targeted, not city-wide, and the most affected areas are the most common and specialised communities for short-term leasing.
+
+Overall, the proposal may significantly reduce the scale of specialised short-term renting activities in high-pressure areas, while the impact on the peripheral and low-intensity Airbnb market is relatively small.
+
 
 
 ## Question 4: What are the likely pros and cons of the opposition’s proposal (for the Mayor, for residents, and for the city)?
