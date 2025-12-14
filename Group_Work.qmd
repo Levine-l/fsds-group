@@ -327,7 +327,7 @@ print((over_90_by_room * 100).round(2).astype(str) + "%")
 ```
 
 Based on this quantitative data, these proportions suggest that the majority of listings are potentially 
-non-compliant with short-let regulations and are managed like business units.
+non-compliant with short-let regulations and are managed like business units. It is important to mention that availability_365 measures potential availability rather than realised occupancy. However, when such high proportions consistently exceed the regulatory threshold across property types, this strongly suggests that there are systematic non-compliance rather than incidental.
 
 
 ```{python}
