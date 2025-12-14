@@ -344,6 +344,7 @@ When we compared this pattern by property type, the entire home/apartment catego
 
 
 ```{python}
+#| warning: false
 #| message: false
 #Also can look at the price level of those over 90 days a year.
 df['over_90'] = df['availability_365'] > 90
