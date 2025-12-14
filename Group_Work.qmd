@@ -282,6 +282,11 @@ To assess whether Airbnb in London is experiencing "over control", we may say so
 ### 1.1 90-days rule
 There is a 90 days regulation, also known as short-let regulation (@90_day_rule), Short-term rentals are permitted for a maximum of 90 days a year, exceeding this period requires a special permit. So are the Airbnb hosts against this policy will be a perspect.
 
+**Assumption**
+
+We assumed that the availability_365 level of listings could be used as an indicator of the intensity of short-term rental activity. When a listing shows availability above 90 days, it could indicate a policy violation or evidence that the host is operating a professional rental business, rather than as a casual home-sharer.
+
+
 ```{python}
 #The availability_365 distribution can indicate 
 #whether Airbnb in London is a "seasonal short-term rental" 
@@ -321,6 +326,10 @@ print("Ratio of >90-day listings by room type:")
 print((over_90_by_room * 100).round(2).astype(str) + "%")
 ```
 
+Based on this quantitative data, these proportions suggest that the majority of listings are potentially 
+non-compliant with short-let regulations and are managed like business units.
+
+
 ```{python}
 #plot ratio of property type >90
 ax = over_90_by_room.plot(kind='bar', figsize=(10, 7), color='steelblue')
@@ -330,6 +339,9 @@ ax.set_title("Ratio of listings exceeding 90 days by room type")
 plt.xticks(rotation=0)
 plt.show()
 ```
+
+When we compared this pattern by property type, the entire home/apartment category had an availability rate of >90 days at 73.72%. Categories like hotel rooms and shared rooms even showed higher rates, indicating the presence of quasi-hotels and multi-room operators operating through the platform. This finding corresponds with the study conducted by @shabrina_airbnb_2022, which identified that Airbnb misused in London was prevalent in entire homes in areas with a high private rental stock.
+
 
 ```{python}
 #Also can look at the price level of those over 90 days a year.
@@ -344,10 +356,25 @@ plt.ylabel("Price (£)")
 plt.show()
 ```
 
+Listings operating for more than 90 days tend to have higher prices than compliant listings, with many outliers reaching £1,000–£2,000 per night. Theoretically, this behavior is compatible with the study of @barron_effect_2021, who explained that Airbnb's expansion is driving a shift in residential units from the long-term to the short-term rental markets, causing pressure on rental prices and house sales.
+
+**Conclusion**
+
+Overall, based on our analysis of listing availability data, the proportion of listings exceeding the 90-day limit, variations in patterns across property types, and commercial rental signals, we conclude that Airbnb activity in London exhibits characteristics of being “out of control.” The platform is no longer dominated by house host renting units occasionally but by professional operators running large-scale short-term rental businesses which has the potential to reduce long-term housing availability and tighten the city’s housing market.
+
+**Limitation**
+
+We acknowledge that availability_365 does not directly measure occupancy and may overestimate regulatory non-compliance if hosts block calendars for non-rental reasons. However, the consistency of signals across availability, property type, and price distributions increases confidence that the observed patterns reflect structural market behaviour rather than data artefacts. Our conclusions should therefore be interpreted as indicative of scale and direction, rather than precise estimates of illegality.
+
 
 ### 1.2 Price level
 
 Price level of Airbnb in London is another key aspect to indicate if airbnb out of control.
+
+**Assumption**
+
+We use price level as a complementary indicator of whether Airbnb activity in London has shifted away from casual home-sharing toward commercial operation. The underlying assumption is that consistently high nightly prices are more likely to be associated with professionally managed, investment-oriented properties than with residents occasionally renting spare rooms.
+
 
 ```{python}
 #Plot distribution of Airbnb prices
@@ -365,6 +392,9 @@ print("Price summary statistics:")
 print(df['price'].describe())
 ```
 
+Based on statistics, the average price was around £185 per night, with a median of £134, but the highest price was £1,999, demonstrating significant price inequality. To determine the extent to which Airbnb activity has evolved away from its original goal of home-sharing, we set a “high” price threshold of more than £200 per night. The results show that 29.38% of listings are priced above £200, a significant proportion for a market that is supposedly dominated by non-commercial short-term rentals.
+
+
 ```{python}
 #We set a price level that ober 200 a night 
 #could be "higher than usual", It may deviate from 
@@ -378,6 +408,10 @@ print("\nShare of >£200 listings by room type:")
 print((high_price_by_type * 100).round(2).astype(str) + "%")
 ```
 
+When these findings are disaggregated by property type, the pattern of commercialization becomes clearer. Entire home/apartment listings have the highest proportion in the high-price category with approximately 41.32% of these units are priced above £200 per night. This is significant because this property type is the type that has the potential to reduce the supply of long-term rentals when transferred to the Airbnb market. In contrast, private and shared rooms have a considerably smaller proportion of expensive properties, which suggest that commercialization is mostly driven by units with higher economic worth.
+
+
+
 ```{python}
 #Combine with the 90 days rule, count the ratio that
 #satisfy over 200 a night and 90 a year.
@@ -388,10 +422,25 @@ df['high_high'] = df['over_90'] & df['high_price']
 print(f"Share of listings both >90 days and >£200: {df['high_high'].mean():.2%}")
 ```
 
+We combined the price analysis with the findings in section 1.1 regarding availability of more than 90 days (an indication of regulatory violations). This combined result shows that 22.91% of listings in London are not only available for more than 90 days but also priced at a premium of over £150. In other words, nearly a quarter of listings in London appear to operate as full-time, high-priced lodging businesses. These findings are consistent with literature such as @barron_effect_2021, which suggests that Airbnb encourages the conversion of residential units into short-term commercial assets, thereby tightening the rental market and potentially driving up housing prices.
+
+**Conclusion**
+
+Overall, this pricing analysis reinforces the conclusion that Airbnb in London is showing signs of being out of control. Most of the postings are not available for more than 90 days, but a large number of them are also being offered at exorbitant prices, especially in the entire homes category which is the most important category for the housing issues. This pattern indicates a clear shift from the initial idea of home-sharing to a more intensive commercial operating model. 
+
+**Limitation**
+
+We acknowledge that high prices may not always reflect exceptional locations or property quality rather than professional management. However, the convergence of price, availability, and property-type signals make this uncertaintymuch less.While exact numbers should be taken with a grain of salt, the effect's direction and size are strong enough to be useful in policy discussions. 
+
 
 ### 1.3 Kernel Density Estimation
 
 In order to understand the spatial distribution pattern of Airbnb in London, we decided to use KDE to observe the overall trend of spatial intensity.
+
+**Assumption**
+
+To assess whether Airbnb activity in London is spatially “out of control,” we examine not only how much Airbnb exists, but where it is concentrated. We assume that spatial clustering of listings especially when combined with high availability and high prices will indicates  commercialised short-term rental activity rather than dispersed, casual home-sharing.
+
 
 ```{python}
 #Firstly, aggregate listing data to the mosa level
@@ -404,6 +453,9 @@ msoa_stats_q1 = listings_msoa.groupby('MSOA11CD').agg(
 
 msoa_stats_q1.head()
 ```
+
+We used Kernel Density Estimation (KDE) to analysis the distribution patterns of Airbnb activity in London. Before we made the KDE, we combined listing data to the MSOA level to calculate the number of listings, the ratio of listings exceeding 90 days of availability, and the average price in each area. This approach helped us link spatial patterns to indicators of misuse, such as the dominance of long-term rentals and the tendency for commercialization. We then extracted the coordinates of each listing and used the KDE with a bandwidth of 750 meters to estimate how many people using Airbnb across London.
+
 
 ```{python}
 #Convert listing points to EPSG:27700 for KDE
@@ -471,10 +523,23 @@ plt.axis('off')
 plt.show()
 ```
 
+**Conclusion**
+
+Overall, the KDE analysis shows that Airbnb in London is not uniformly spread out. Instead, it is mostly in the city center which is the location that is most affected by changes in the property market. This situation reinforces our conclusion that Airbnb activity in London is showing signs of being "out of control," as not only are there violations of the 90-day rule but also a systematic spatial pattern in which high-value areas have been taken over by intensive Airbnb operations. This pattern aligns with international research (including @barron_effect_2021) showing that Airbnb density in city centers is associated with increased rental prices and the conversion of residential units to short-term rentals.
+
+**Limitation**
+
+We recognise that KDE results are sensitive to bandwidth choice and do not directly measure occupancy or displacement. However, the robustness of the central-city clustering across multiple indicators, such as density, availability, and price. This gives us confidence that the observed spatial patterns reflect genuine structural dynamics rather than modelling artefacts.
+
 
 ### 1.4 Airbnb Distribution in London
 
 This map provides a descriptive overview of the spatial concentration of Airbnb listings across London boroughs. While it does not constitute a formal hotspot analysis, the strong visual clustering suggests that Airbnb activity is highly uneven and concentrated in specific inner-city areas.
+
+**Assumption**
+
+To further assess whether Airbnb activity in London is “out of control,” we examine its borough-level concentration and the frequency of multi-listers which we defined as hosts operating more than two listings. We use multi-lister share as a proxy for professionalisation, under the assumption that managing multiple properties simultaneously requires capital, operational capacity, and a business-oriented model rather than casual home-sharing.
+
 
 ```{python}
 #| output: false
@@ -537,6 +602,7 @@ plt.tight_layout()
 plt.show()
 ```
 From this plot we can simply see, boroughs with the highest number of Airbnb listings also tend to have higher ratio of multi-lister hosts, suggesting that spatial concentration and professionalisation often happen at the same time.
+Westminster had the most listings with 8,347. Kensington and Chelsea (4,697), Camden (4,473), and Tower Hamlets (4,414) were next. Because a lot of tourists come to these boroughs, there is a lot of demand for housing and property prices are some of the highest in London. The large concentration of listings in these areas confirms that Airbnb is highly localized, not a city-wide phenomenon.
 
 
 
@@ -560,10 +626,26 @@ ax.set_axis_off()
 plt.show()
 ```
 
+We also calculated the multi-lister share, which is the proportion of hosts who have more than two listings. This indicator shows the level of Airbnb's commercialization within a borough. The results are striking: the boroughs with the highest total listings also have the highest multi-listing rates. For example, Westminster recorded a multi-listing share of 84%, followed by Kensington and Chelsea (80%) and Camden (77%). These figures indicate that the majority of listings in London's core areas are not managed by home hosts but rather by professional operators operating multiple units, which indicates a large-scale short-term rental business model.
+
+**Conclusion**
+
+Overall, Central and Western London boroughs are were most of the dense clusters are, while suburban boroughs tend to have lower densities (@shabrina_airbnb_2022). In other words, we found that the Airbnb-related crisis was not city-wide, but concentrated in a few strategic hotspots that played a large role in reducing the availability of long-term housing and increasing price pressures in central London. So, from the borough-level analysis demonstrates that Airbnb in London exhibits characteristics of being “out of control” in a spatially concentrated and professionalised manner. 
+
+**Limitation**
+
+We acknowledge that the “more than two listings” threshold may undercount professional operators who distribute properties across platforms or corporate structures. However, even under this conservative definition, the extremely high multi-lister shares observed in central boroughs provide strong evidence of systematic professionalisation.
+
+
 
 ### 1.5 MSOA-Level Airbnb Activity in Westminster
 
 As shown in the map above, Westminster has the highest concentration of listings, so we zoom in this area for a more detailed MSOA-Level Airbnb Activity analysis.
+
+**Assumption**
+
+ We conducted a more detailed analysis, focusing on the borough of Westminster, the area with the highest number of Airbnb listings in all of London. The aim of this analysis was to understand whether the “out of control” pattern is limited to the borough as a whole, or whether the concentration is even stronger when viewed at a smaller spatial level, namely Middle Layer Super Output Areas (MSOAs). By performing geometric clipping specifically for Westminster and then spatially joining the listing points and MSOA polygons, we were able to precisely calculate the number of listings in each MSOA.
+
 
 ```{python}
 #Only take the Borough polygon from Westminster.
@@ -605,7 +687,9 @@ msoa_west_counts["listing_count"] = msoa_west_counts["listing_count"].fillna(0)
 
 #Convert to Web Mercator for overlaying background images
 msoa_west_3857 = msoa_west_counts.to_crs(epsg=3857)
+```
 
+```{python}
 #plot：MSOA-Level Airbnb Activity in Westminster
 fig, ax = plt.subplots(figsize=(8, 8))
 msoa_west_3857.plot(
@@ -623,10 +707,30 @@ ax.set_title("MSOA-Level Airbnb Activity in Westminster", fontsize=16)
 plt.show()
 ```
 
+The analysis revealed a total of 8,345 Airbnb listings in Westminster, a figure that confirms the borough's dominance as a major hotspot for short-term rental activity. However, the distribution is uneven within Westminster. The map shows that several MSOAs in the east and southeast of Westminster have very high Airbnb intensity, some with over 1,000 listings in a single MSOA. These areas include the areas around Covent Garden, Soho, Leicester Square, and Victoria, areas that boast a unique combination of tourist attractions, major transport stations, and very high commercial density.
+
+
+In contrast, MSOAs located in the western half of Westminster, such as districts surrounding Maida Vale or St John's Wood exhibit much lower listing counts which indicates  that Airbnb is not only concentrated within the borough of Westminster, but also concentrated in specific pockets within it. In other words, the problem of short-term rentals, potentially violating the 90-day regulation and encouraging property commercialization, occurs in these super-dense zones, which cover only a small portion of Westminster but have a significant impact on the local housing market.
+
+**Conclusion**
+
+This MSOA analysis reinforces the conclusion that Airbnb in London, particularly in Westminster is showing very clear signs of being “out of control.” Even within a single borough, there are areas with such high listing levels that they likely operate more like informal hotels than simply home-sharing platforms. Furthermore, the extreme centralization pattern we found at the MSOA level is consistent with the findings of @shabrina_airbnb_2022, which explains that Airbnb abuse is most intense in locations with high tourism demand and high housing pressure.
+ 
+
+**Limitation**
+
+We acknowledge that this MSOA-level analysis focuses exclusively on Westminster, the borough with the highest Airbnb concentration, and therefore may not be representative of intra-borough patterns elsewhere in London. In addition, MSOA-level counts capture the number of listings rather than actual occupancy or frequency of use, meaning that high listing density does not necessarily imply continuous activity or regulatory non-compliance. Finally, while MSOAs provide finer spatial resolution than boroughs, they may still mask variation within very small neighbourhoods or individual buildings, particularly in areas with dense mixed-use development.
+
+
 
 ### 1.6 MSOA-level CLustering
 
 To identify the spatial types of Airbnb activities in London, we selected three variables at the MSOA level to do clustering.
+
+**Assumption**
+
+We assume that the three selected variables, such as listing count, average price, and the share of listings exceeding 90 days represent the fundamental aspect of Airbnb intensity and commercialisation at the neighbourhood level. We also assume that k-means clustering with three clusters provides us a useful and understanable way to group Airbnb activity, balancing analytical simplicity with sufficient differentiation across MSOAs.
+
 
 ```{python}
 #features for clustering
@@ -699,6 +803,27 @@ ax.set_axis_off()
 ax.set_title("MSOA-level Airbnb Typologies (Clustering)")
 plt.show()
 ```
+
+The k-means clustering results yield three distinct Airbnb area types. The highest-intensity cluster is characterized by a combination of a very large number of listings, high average prices, and significant violations of the 90-day rule which strongly concentrated in Central London. In this context, our clustering provides additional evidence that the phenomenon is not only evident at the borough level but also structured down to the neighborhood scale (MSOA).
+
+The second cluster exhibits a different, but still problematic, pattern. Although the number of listings and average prices are lower than those in the intensive cluster, areas within this cluster have the highest proportion of listings >90 days. This suggests that in semi-residential areas, Airbnb operates more “invisibly” as a sustainable short-term rental, though not always at a large scale or at premium prices. This pattern supports what Barron et al. (2021) said that Airbnb has the biggest effect on the housing market when residential units are switched from the long-term to the short-term rental market, no matter where they are. 
+
+By contrast, the low-intensity cluster includes the majority of London’s suburban MSOAs, characterised by fewer listings, more moderate prices, and lower rates of 90-day exceedance. This cluster most closely reflects the original home-sharing model of Airbnb and indicates that “out of control” dynamics are not present uniformly across the city.
+
+**Conclusion**
+
+The MSOA-level clustering confirms that Airbnb in London is not only concentrated in certain areas but also work differently indifferent neihborhoods. High- and medium-intensity clusters show where Airbnb is most likely to be a long-term business, which could affect the availability of housing and the stability ofneighboorhoods. These results support the idea that policies should be tailored to certain areas and have diverse structures, rather than being the same for the whole city.
+ 
+
+**Limitation**
+
+We acknowledge that the clustering results are sensitive to the choice of variables and the number of clusters, and alternative specifications could yield slightly different typologies. In addition, MSOA-level aggregation may mask variation within smaller neighbourhoods or individual buildings, particularly in dense mixed-use areas. Finally, the analysis relies on listing characteristics rather than direct measures of occupancy or profitability, meaning that cluster membership reflects potential intensity of use rather than confirmed regulatory non-compliance.
+
+
+### 1.7 Overall Conclusion
+
+Based on the overall analysis of 1.1–1.6, we conclude that Airbnb in London exhibits a spatially and structurally “out-of-control” situation, although not uniformly across the city. Airbnb’s regulatory overreach, combined with high prices, extreme density in the city center, and the dominance of professional hosts, suggests that the platform has shifted from a home-sharing model to a commercialized short-term rental operation. 
+
 
 ## Question 2: How many professional landlords are there?
 
@@ -855,8 +980,83 @@ plt.show()
 
 
 ## Question 4: What are the likely pros and cons of the opposition’s proposal (for the Mayor, for residents, and for the city)?
+The following policy interpretation builds on empirical results from Q1–Q3. Our analysis shows that London's Airbnb market is dominated by professional activity and concentrated in the central boroughs. Therefore, we believe this opposition proposal should be understood not simply as a short-term political response, but as an attempt to intervene in the city's housing and tourism market structure.
+
+### 4.1  Implication for Mayor
+
+#### 4.1.1 Pros
+
+For the Mayor, a regulatory policy centered on professional Airbnb operators is a direct consequence of the empirical trends observed in Questions 1–3, indicating that Airbnb-related pressures in London are significantly concentrated, financially motivated, and spatially inconsistent. Rather than being distributed across the city as a whole, these pressures are primarily generated by a relatively small group of professional landlords operating large-scale short-term rental businesses in central boroughs. The mayor can rightfully say that the policy is founded on evidence, fair, and focused by using a different set of rules that separates casual home-sharing from short-term rental for business purposes. This approach reflects best practices highlighted in the urban planning literature, which emphasizes the importance of actor difference in Airbnb regulation (@gurran_when_2017).
+
+This kind of framework also provides the mayor a solid reason to ask commercial short-term rentals to pay more taxes. As shown in Q2 and Q3, most of the listings on Airbnb are owned by professional landlords, and most of the activity happens in locations where infrastructure, public services, and community amenities are most stressed. Higher Council Tax rates or targeted taxes on particular properties can therefore be justified as a way to internalize external expenses, rather than as a general tax increase. If revenues are clearly reinvested in affected neighborhoods, the mayor can increase the credibility of the strategy. 
+Politically, this strategy enables the mayor to directly address the geography of impact indicated in Q1-Q3. Residents in central London neighborhoods are particularly affected by Airbnb activity, such as noise, housing pressure, and high turnover of occupants. A targeted regulatory response enables the mayor to demonstrate responsiveness to these lived realities, reinforcing political credibility in areas where dissatisfaction is most intense.
+
+#### 4.1.2 Cons
+
+This method also has political and institutional concern at the same time.   We can see from Questions 2 and 3 that a lot of Airbnb rentals are owned by professional landlords. This offers them a lot of reasons and resources to fight against rules. According to @barron_effect_2021, he claims that large-scale short-term rental operators are often the most active opponents of regulation intervention. They using lobbying, media framing, and legal challenges to defend their interests.  To deal with this resistance, the mayor would need to be careful with the communication and robust legal design.
+There is also a risk related to policy framing in an electoral context. If people think that the mayor’s response is a direct adoption of an opposition plan, instead of a separate policy based on independent analysis, it may seem more like a reaction than a strategy. To mitigate this risk, the mayor would need to make it clear how the empirical data in Questions 1-3 has formed the regulatory framework and how it is different from blanket or symbolic intervention.
+
+
+### 4.2 Implication for Residents 
+
+#### 4.2.1 Pros 
+
+The proposed regulatory strategy could make housing more available and enhance neighborhood conditions for inhabitants, especially those who live in central boroughs. More than half of the Airbnb listings in London are run by professional landlords, and many them run houses almost all the time, as shown in Question 3. If this part of the market is regulated, it may make is less appealing to keep properties as full-time short-term rentals. This would make it more likely that some units would go back to the long-term rental market.  Evidence indicates that regulations are impossible to provide substantial rent decrease citywide, nonetheless, they may alleviate pressure in neighborhoods where Airbnb has significantly reduced long-term housing availability (@garcia-lopez_short-term_2020).
+
+Residents may also benefit from a more stable and higher quality of life. Airbnb activity is very clustered as shown in Question 1. This means that short-term guests often leave and come back to the same places. @gurran_when_2017 link these types of patterns to more noise, less social cohesion, and a lower quality of life in neighborhoods. So, even if it's hard to put value on how much better life would be if there were fewer short-term business leases, it might be worth it.  
+
+In addition, the regulatory strategy might assist stop gentrification and displacement caused by tourist. @shabrina_airbnb_2022 explains that Airbnb is being misused in London mostly in areas with a lot of tourist and private rental homes.  This is turning residential neighborhoods into quasi-tourist zones. Regulation that focused on certain areas could assist by giving people less opportunities to guess.  
+
+
+
+#### 4.2.2 Cons
+
+Residents may also have to face trade-offs. Airbnb is not only for tourists, buti it also for students, transient workers, and families that are moving and require flexible short-term housing. These options may be difficult ro uncover if there are fewer professional Airbnb listings, especially in central boroughs that are easy to access.  
+
+There is also a risk of cost shifting rather than cost reduction. @garcia-lopez_short-term_2020 note that if there are limits on Airbnb, people would look for hotels or serviced apartments instead, which could drive up prices in such markets. These effects may disproportionately impact on middle-income users who used to use Airbnb because it was a reasonable cheap option.
+
+Finally, the benefits of regulation are likely unevenly distributed. As shown in Questions 1–3, Airbnb impacts are spatially concentrated, meaning residents in outer boroughs may see little direct improvement while still experiencing indirect effects, such as higher short-term accommodation costs. This uneven geography raises questions of distributional fairness (@shabrina_airbnb_2022).
+
+### 4.3 Implication for City
+
+#### 4.3.1 Pros
+
+At the city scale, a focused regulatory framework has the potential to improve the general functioning of London's housing market by addressing the reallocation of properties to short-term rental use identified in Question 1 and 3. Limiting large-scale commercial Airbnb activity can reduce upward pressure on rents and house prices in impacted areas, especially where short-term rentals replace long-term housing (@garcia-lopez_short-term_2020).
+The framework would also enhance urban governance capacities. A registration requirement would provide more accurate data about the size and location of short-term rental activity. This would let governance to make laws that more flexible and more suited to each area.
+According to @gurran_when_2017, effective Airbnb regulation needs information, the power of enforce regulations, and clear rules. In addition, reducing high-density Airbnb clusters in central boroughs may assist to mitigate some of the negative overtourism, such as demand on infrastructure, public space, and local services. 
+
+#### 4.3.2 Cons
+
+Displacement effects can happen when activity moves to other boroughs, platforms, or types of housing instead of going away completely (@garcia-lopez_short-term_2020). Short-term changes may potentially affect some parts of London's tourism industry, especially among mid-range visitors who use Airbnb. Finally, given Airbnb's effects vary greatly throughout cities, applying the identical laws to all boroughs may not be an optimal option. If there is no way to tell the difference between areas and coordinate among boroughs, the rules may be overly strict in low-impact areas or inadequately tough in core hotspots. This a challenge widely noted in the urban planning literature (@gurran_when_2017).
+
+### 4.4 Overall Positioning
+
+Based on the data from Questions 1–3, a targeted, evidence-led regulation framework focused on professional short-term rental activity offers the mayor the greatest opportunity to deal with housing challenges caused by Airbnb while still being political credible. The benefits are clearest in central boroughs and among residents most exposed to commercial Airbnb activity, while the risks relate primarily to enforcement capacity, political resistance, and displacement effects. How the Mayor frames and differentiates this response will ultimately determine whether the policy is perceived as reactive or as a demonstration of strategic, data-driven leadership.
+
 
 ## Question 5: Can the story be reframed as a positive one about social mobility or housing opportunity?
+
+Based on our findings from Q1–Q3, the scandal involving the ownership of multiple Airbnb properties by a single advisor does not fully represent how the majority of Airbnb hosts operate in London. Our analysis suggests that the primary issue in the Airbnb market is not the presence of small hosts renting out single units or rooms, but rather the dominance of professional landlords, who control more than half of all listings and operate intensively in central areas. These findings open space for a more balanced reframing of the Airbnb debate.
+
+The key issue is therefore not simply the existence of Airbnb itself, but how the platform’s economic benefits are distributed and which groups benefit most from its operation.
+
+From our perspective, Airbnb still holds potential as a source of social mobility and economic opportunity for some residents, particularly small homeowners. Many small hosts are motivated to rent out spare rooms or properties due to economic necessity, work flexibility, or the need to supplement household income by monetizing assets they already own, thereby creating additional income opportunities without entering formal employment (@arenoe_game_2015; @sundararajan_sharing_2016).
+
+Some positive narratives that could be emphasized include:
+- A London resident renting out a spare room to help cover mortgage payments or rising living costs.
+- An elderly homeowner generating supplementary income through short-term rentals without having to sell their home.
+- A middle-income household using Airbnb occasionally as a temporary financial support mechanism.
+
+However, our data also indicate that this positive narrative cannot be generalized across the entire London Airbnb market. As a result, we argue that the most credible reframing strategy is not to defend Airbnb as a whole, but to clearly distinguish between genuine home-sharing and the large-scale commercialization of housing.
+
+The city government can emphasize that the objective of regulation is not to eliminate supplementary income opportunities for small homeowners, but to limit the use of Airbnb as a vehicle for property accumulation by elite actors.
+
+Examples of policy reframing strategies include:
+- Communicating that hosts with one or two listings remain protected as part of the sharing economy, while professional operators are subject to stricter regulation.
+- Framing regulation as a means of safeguarding ordinary residents’ economic opportunities from over-commercialization.
+- Ensuring that Airbnb regulations do not stifle innovation, while simultaneously supporting access to long-term housing.
+
+In this way, the Mayor can reframe the controversy as part of a broader commitment to innovation and economic mobility that does not come at the expense of access to adequate housing. Optimistic perspectives on the sharing economy’s potential for social mobility (@arenoe_game_2015; @sundararajan_sharing_2016) can coexist with concerns about over-commercialization (@slee_whats_2015), while our empirical findings suggest that selective, targeted, and evidence-based regulation is essential for balancing these objectives in the London context.
 
 
 ## References
