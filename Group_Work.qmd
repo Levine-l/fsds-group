@@ -1007,27 +1007,15 @@ At the city scale, targeted regulation may improve housing market efficiency by 
 
 ## Question 5: Can the story be reframed as a positive one about social mobility or housing opportunity?
 
-Based on our findings from Q1–Q3, the scandal involving the ownership of multiple Airbnb properties by a single advisor does not fully represent how the majority of Airbnb hosts operate in London. Our analysis suggests that the primary issue in the Airbnb market is not the presence of small hosts renting out single units or rooms, but rather the dominance of professional landlords, who control more than half of all listings and operate intensively in central areas. These findings open space for a more balanced reframing of the Airbnb debate.
+The controversy surrounding the ownership of multiple Airbnb properties by a single advisor risks oversimplifying the structure of London’s Airbnb market. Evidence from Questions 1–3 shows that the core issue is not casual home-sharing, but the dominance of professional landlords who control a disproportionate share of listings and operate intensively in central boroughs. This distinction creates scope for a more constructive reframing of the debate.
 
-The key issue is therefore not simply the existence of Airbnb itself, but how the platform’s economic benefits are distributed and which groups benefit most from its operation.
+Rather than portraying Airbnb as inherently harmful, the Mayor can reframe the issue around how economic benefits are distributed and who gains from short-term rental activity. For a subset of London residents, Airbnb continues to function as a source of supplementary income and economic resilience. Small-scale hosts may rent out spare rooms or properties to offset rising living costs, manage mortgage payments, or maintain housing security without exiting the labour market (@arenoe_game_2015; @sundararajan_sharing_2016). In this sense, genuine home-sharing can still be framed as supporting limited forms of social mobility and household stability.
 
-From our perspective, Airbnb still holds potential as a source of social mobility and economic opportunity for some residents, particularly small homeowners. Many small hosts are motivated to rent out spare rooms or properties due to economic necessity, work flexibility, or the need to supplement household income by monetizing assets they already own, thereby creating additional income opportunities without entering formal employment (@arenoe_game_2015; @sundararajan_sharing_2016).
+However, the empirical findings indicate that this positive narrative cannot be generalised across the entire market. As shown in Questions 1–3, professional landlords dominate listings in high-demand central areas, transforming Airbnb from a sharing platform into a mechanism for housing commodification. A credible reframing strategy therefore requires differentiation rather than defence of the platform as a whole.
 
-Some positive narratives that could be emphasized include:
-- A London resident renting out a spare room to help cover mortgage payments or rising living costs.
-- An elderly homeowner generating supplementary income through short-term rentals without having to sell their home.
-- A middle-income household using Airbnb occasionally as a temporary financial support mechanism.
+The Mayor can emphasise that regulation is designed to protect socially beneficial forms of home-sharing while curbing large-scale commercial use. This includes clearly communicating that hosts with one or two listings remain part of the sharing economy, whereas professional operators face stricter rules. Regulation can thus be framed not as anti-innovation, but as a means of safeguarding ordinary residents’ income opportunities from being crowded out by elite actors engaged in property accumulation.
 
-However, our data also indicate that this positive narrative cannot be generalized across the entire London Airbnb market. As a result, we argue that the most credible reframing strategy is not to defend Airbnb as a whole, but to clearly distinguish between genuine home-sharing and the large-scale commercialization of housing.
-
-The city government can emphasize that the objective of regulation is not to eliminate supplementary income opportunities for small homeowners, but to limit the use of Airbnb as a vehicle for property accumulation by elite actors.
-
-Examples of policy reframing strategies include:
-- Communicating that hosts with one or two listings remain protected as part of the sharing economy, while professional operators are subject to stricter regulation.
-- Framing regulation as a means of safeguarding ordinary residents’ economic opportunities from over-commercialization.
-- Ensuring that Airbnb regulations do not stifle innovation, while simultaneously supporting access to long-term housing.
-
-In this way, the Mayor can reframe the controversy as part of a broader commitment to innovation and economic mobility that does not come at the expense of access to adequate housing. Optimistic perspectives on the sharing economy’s potential for social mobility (@arenoe_game_2015; @sundararajan_sharing_2016) can coexist with concerns about over-commercialization (@slee_whats_2015), while our empirical findings suggest that selective, targeted, and evidence-based regulation is essential for balancing these objectives in the London context.
+In this way, the Mayor can reposition the controversy as part of a broader commitment to balancing innovation, social mobility, and housing access. Optimistic narratives about the sharing economy’s potential (@arenoe_game_2015; @sundararajan_sharing_2016) can coexist with concerns about over-commercialisation (@slee_whats_2015), provided that regulation remains selective, targeted, and grounded in empirical evidence from the London context.
 
 
 ## References
