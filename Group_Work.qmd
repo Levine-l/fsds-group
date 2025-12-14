@@ -670,8 +670,8 @@ msoa_stats = (
       .size()
       .reset_index(name="listing_count")
 )
-print("\nExample of MSOA statistics in Westminster：")
-print(msoa_stats.head())
+#print("\nExample of MSOA statistics in Westminster：")
+#print(msoa_stats.head())
 
 #Merge listing_count back into Westminster's MSOA polygon
 msoa_west_counts = msoa_west.merge(
@@ -685,6 +685,21 @@ msoa_west_counts["listing_count"] = msoa_west_counts["listing_count"].fillna(0)
 
 #Convert to Web Mercator for overlaying background images
 msoa_west_3857 = msoa_west_counts.to_crs(epsg=3857)
+```
+
+```{python}
+#print some info about listings in Westminster.
+print(
+    f"Across Westminster MSOAs, listing counts range from "
+    f"{msoa_stats['listing_count'].min()} to "
+    f"{msoa_stats['listing_count'].max()}, "
+    f"with a median of {msoa_stats['listing_count'].median()}."
+)
+```
+
+```{python}
+print("\nHere are the top 5 count of listings for Westminster MSOAs.")
+msoa_stats.sort_values('listing_count', ascending=False).head(5)
 ```
 
 ```{python}
@@ -705,7 +720,7 @@ ax.set_title("MSOA-Level Airbnb Activity in Westminster", fontsize=16)
 plt.show()
 ```
 
-The analysis revealed a total of 8,345 Airbnb listings in Westminster, a figure that confirms the borough's dominance as a major hotspot for short-term rental activity. However, the distribution is uneven within Westminster. The map shows that several MSOAs in the east and southeast of Westminster have very high Airbnb intensity, some with over 1,000 listings in a single MSOA. These areas include the areas around Covent Garden, Soho, Leicester Square, and Victoria, areas that boast a unique combination of tourist attractions, major transport stations, and very high commercial density.
+The analysis revealed a total of 8,345 Airbnb listings in Westminster, a figure that confirms the borough's dominance as a major hotspot for short-term rental activity. However, the distribution is uneven within Westminster. Across Westminster MSOAs, listing counts range from very low levels to over one thousand, with the median MSOA containing far fewer listings, showing the extreme skew in the internal distribution. The map shows that several MSOAs in the east and southeast of Westminster have very high Airbnb intensity. These areas include the areas around Covent Garden, Soho, Leicester Square, and Victoria, areas that boast a unique combination of tourist attractions, major transport stations, and very high commercial density.
 
 
 In contrast, MSOAs located in the western half of Westminster, such as districts surrounding Maida Vale or St John's Wood exhibit much lower listing counts which indicates  that Airbnb is not only concentrated within the borough of Westminster, but also concentrated in specific pockets within it. In other words, the problem of short-term rentals, potentially violating the 90-day regulation and encouraging property commercialization, occurs in these super-dense zones, which cover only a small portion of Westminster but have a significant impact on the local housing market.
