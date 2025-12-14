@@ -889,22 +889,6 @@ To determine the number of properties affected, we first need to filter out prof
 ### 3.1 Distribution of affected listings by region
 
 ```{python}
-affected_by_area = (
-    affected_properties.groupby('neighbourhood_cleansed')
-                       .size()
-                       .reset_index(name='n_affected')
-                       .sort_values('n_affected', ascending=False)
-)
-
-plt.figure(figsize=(10,6))
-plt.bar(affected_by_area['neighbourhood_cleansed'], affected_by_area['n_affected'])
-plt.xticks(rotation=90)
-plt.ylabel('Number of Affected Listings')
-plt.title('Affected Listings by Neighbourhood')
-plt.show()
-```
-
-```{python}
 #how many listings are affected
 pro_hosts = df[df['host_total_listings_count'] > 2]['host_id'].unique()
 #Filter all listings under these landlords' names
@@ -926,6 +910,24 @@ affected_host_ratio = affected_hosts / total_hosts
 
 print(f"And there are {affected_hosts} hosts were impacted，which is {affected_host_ratio:.0%} of total.")
 ```
+
+
+```{python}
+affected_by_area = (
+    affected_properties.groupby('neighbourhood_cleansed')
+                       .size()
+                       .reset_index(name='n_affected')
+                       .sort_values('n_affected', ascending=False)
+)
+
+plt.figure(figsize=(10,6))
+plt.bar(affected_by_area['neighbourhood_cleansed'], affected_by_area['n_affected'])
+plt.xticks(rotation=90)
+plt.ylabel('Number of Affected Listings')
+plt.title('Affected Listings by Neighbourhood')
+plt.show()
+```
+
 
 ### 3.2 Display the location of professional landlord listings on a map
 
