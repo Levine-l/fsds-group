@@ -1,6 +1,6 @@
 ---
 date: last-modified
-bibliography: bio.bib
+bibliography: https://raw.githubusercontent.com/Levine-l/fsds-group/refs/heads/main/bio.bib?token=GHSAT0AAAAAADRG4D4ZIYMZQSF5YR6Y3Q5K2J7GA4A
 csl: harvard-cite-them-right.csl
 title: Emberfire's Group Project
 execute:
