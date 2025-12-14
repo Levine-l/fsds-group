@@ -201,17 +201,8 @@ listings_msoa = listings_msoa.dropna(subset=['MSOA11CD'])
 
 To assess whether Airbnb in London is experiencing "over control", we may say some illegal renting or pricing may causing over control. 
 
-```{python}
-from IPython.display import display_markdown
-
-def as_markdown(head='', body='Some body text'):
-    if head != '':
-        display_markdown(f"##### {head}\n\n>{body}\n", raw=True)
-    else:
-        display_markdown(f">{body}\n", raw=True)
-
-as_markdown('1.1 90-days rule', "There is a 90 days regulation(also known as short-let regulation)(https://www.nestify.co.uk/article/90-day-rule/), Short-term rentals are permitted for a maximum of 90 days a year, exceeding this period requires a special permit.  so are the Airbnb hosts against this policy will be a perspect.")
-```
+### 1.1 90-days rule
+There is a 90 days regulation(also known as short-let regulation)(https://www.nestify.co.uk/article/90-day-rule/), Short-term rentals are permitted for a maximum of 90 days a year, exceeding this period requires a special permit. So are the Airbnb hosts against this policy will be a perspect.
 
 ```{python}
 #The availability_365 distribution can indicate 
@@ -227,6 +218,7 @@ plt.ylabel("Count of listings")
 plt.title("Distribution of Airbnb availability in London")
 plt.show()
 ```
+
 
 ```{python}
 #availability_365 > 90 is a potential key element
@@ -274,9 +266,10 @@ plt.ylabel("Price (£)")
 plt.show()
 ```
 
-```{python}
-as_markdown('1.2 Price level','Price level of Airbnb in London is another key aspect to indicate if airbnb out of control.')
-```
+
+### 1.2 Price level
+
+Price level of Airbnb in London is another key aspect to indicate if airbnb out of control.
 
 ```{python}
 #Plot distribution of Airbnb prices
@@ -314,12 +307,13 @@ df['over_90'] = df['availability_365'] > 90
 df['high_price'] = df['price'] > 200
 df['high_high'] = df['over_90'] & df['high_price']
 
-print(f"Share of listings both >90 days and >£150: {df['high_high'].mean():.2%}")
+print(f"Share of listings both >90 days and >£200: {df['high_high'].mean():.2%}")
 ```
 
-```{python}
-as_markdown("1.3 Kernel Density Estimation","In order to understand the spatial distribution pattern of Airbnb in London, we decided to use KDE to observe the overall trend of spatial intensity.")
-```
+
+### 1.3 Kernel Density Estimation
+
+In order to understand the spatial distribution pattern of Airbnb in London, we decided to use KDE to observe the overall trend of spatial intensity.
 
 ```{python}
 #Firstly, aggregate listing data to the mosa level
@@ -398,9 +392,10 @@ plt.axis('off')
 plt.show()
 ```
 
-```{python}
-as_markdown("1.4 Airbnb Distribution","This map provides a descriptive overview of the spatial concentration of Airbnb listings across London boroughs. While it does not constitute a formal hotspot analysis, the strong visual clustering suggests that Airbnb activity is highly uneven and concentrated in specific inner-city areas.")
-```
+
+### 1.4 Airbnb Distribution in London
+
+This map provides a descriptive overview of the spatial concentration of Airbnb listings across London boroughs. While it does not constitute a formal hotspot analysis, the strong visual clustering suggests that Airbnb activity is highly uneven and concentrated in specific inner-city areas.
 
 ```{python}
 gdf_la = gpd.sjoin(
@@ -449,9 +444,10 @@ ax.set_axis_off()
 plt.show()
 ```
 
-```{python}
-as_markdown("1.5 MSOA-Level Airbnb Activity in Westminster","As shown in the map above, Westminster has the highest concentration of listings, so we chose this area for a more detailed MSOA-Level Airbnb Activity analysis.")
-```
+
+### 1.5 MSOA-Level Airbnb Activity in Westminster
+
+As shown in the map above, Westminster has the highest concentration of listings, so we chose this area for a more detailed MSOA-Level Airbnb Activity analysis.
 
 ```{python}
 #Only take the Borough polygon from Westminster.
@@ -511,9 +507,10 @@ ax.set_title("MSOA-Level Airbnb Activity in Westminster", fontsize=16)
 plt.show()
 ```
 
-```{python}
-as_markdown("1.6 MSOA-level CLustering","To identify the spatial types of Airbnb activities in London, we selected three variables at the MSOA level to do clustering.")
-```
+
+### 1.6 MSOA-level CLustering
+
+To identify the spatial types of Airbnb activities in London, we selected three variables at the MSOA level to do clustering.
 
 ```{python}
 #features for clustering
@@ -661,7 +658,17 @@ n_affected, affected_ratio
 ```
 
 ```{python}
-as_markdown("3.1","A bar chart showing the distribution of affected listings by region")
+as_markdown("3.1","Distribution of affected listings by region")
+```
+
+```{python}
+#How many hosts are affected
+affected_hosts = df[df['host_total_listings_count'] > 2]['host_id'].nunique()
+total_hosts = df['host_id'].nunique()
+
+affected_host_ratio = affected_hosts / total_hosts
+
+print(f"There are {affected_hosts} hosts were impacted，which is {affected_host_ratio:.0%} of total.")
 ```
 
 ```{python}
@@ -695,6 +702,41 @@ plt.legend()
 plt.title('Spatial Distribution of Affected Listings (Professional Landlords)')
 plt.xlabel('Longitude')
 plt.ylabel('Latitude')
+plt.show()
+```
+### 3.3 Affected host's Map
+
+```{python}
+#affected listings
+df['affected'] = df['host_total_listings_count'] > 2
+
+#Bring into spatial data
+affected_gdf = gpd.GeoDataFrame(df,geometry=gpd.points_from_xy(df.longitude, df.latitude),crs="EPSG:4326").to_crs(msoa.crs)
+#Spatial join to MSOA
+affected_msoa = gpd.sjoin(affected_gdf,msoa[['MSOA11CD', 'geometry']],how='left',predicate='within')
+#aggregate by MSOA
+msoa_affected_stats = (affected_msoa.groupby('MSOA11CD').agg(total_listings=('id', 'count'),affected_share=('affected', 'mean')).reset_index())
+
+# Merge back to MSOA polygons
+msoa_affected_map = msoa.merge(msoa_affected_stats,on='MSOA11CD',how='left')
+msoa_affected_map['affected_share'] = msoa_affected_map['affected_share'].fillna(0)
+
+```
+
+```{python}
+fig, ax = plt.subplots(figsize=(9,9))
+
+msoa_affected_map.plot(
+    column='affected_share',
+    cmap='Reds',
+    linewidth=0.1,
+    edgecolor='white',
+    legend=True,
+    ax=ax
+)
+
+ax.set_title("Proportion of Listings Affected by the Proposal")
+ax.set_axis_off()
 plt.show()
 ```
 

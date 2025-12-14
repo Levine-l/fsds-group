@@ -9,3 +9,26 @@ __pycache__/
 .DS_Store
 Thumbs.db
 # data/
+
+/.quarto/
+**/*.quarto_ipynb
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Local config
+conf.py
+
+# Data folders (usually too big / not reproducible)
+data/
+
+# Quarto / HTML outputs
+Group_project.html
+Group_project_files/
+*.html
+*_files/
+.quarto/
