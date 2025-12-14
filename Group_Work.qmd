@@ -601,10 +601,8 @@ plt.title('Airbnb concentration and professionalisation by borough (Top 10)')
 plt.tight_layout()
 plt.show()
 ```
-From this plot we can simply see, boroughs with the highest number of Airbnb listings also tend to have higher ratio of multi-lister hosts, suggesting that spatial concentration and professionalisation often happen at the same time.
-Westminster had the most listings with 8,347. Kensington and Chelsea (4,697), Camden (4,473), and Tower Hamlets (4,414) were next. Because a lot of tourists come to these boroughs, there is a lot of demand for housing and property prices are some of the highest in London. The large concentration of listings in these areas confirms that Airbnb is highly localized, not a city-wide phenomenon.
 
-
+This chart shows the distribution of Airbnb housing in various borough of London. The bar chart shows the total number of Airbnb by borough, and the line shows the proportion of Airbnb operated by multiple landlords. There is a significant correlation between spatial concentration and professionalisation. Westminster records the largest (8,347), followed by Kensington and Chelsea (4,697), Camden (4,473) and Tower Hamlets (4,414). The proportion of multiple listings host in these administrative regions is also significantly high, which shows that the area where Airbnb housing resources are most concentrated is also the area where professional landlords are most concentrated. This find just coincides with the strong tourism demand and high housing prices in central and inner-west London, further confirming that Airbnb's activities in London are highly localised rather than evenly distributed throughout the city.
 
 
 ```{python}
