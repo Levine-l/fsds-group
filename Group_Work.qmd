@@ -950,17 +950,43 @@ The above figure shows the distribution of Airbnb housing affected by the propos
 ### 3.2 Display the location of professional landlord listings on a map
 
 ```{python}
-plt.figure(figsize=(7,7))
-plt.scatter(df['longitude'], df['latitude'], s=2, alpha=0.1, label='All Listings')
-plt.scatter(affected_properties['longitude'], affected_properties['latitude'], s=4, color='red', alpha=0.5, label='Affected Listings')
+affected_gdf = gpd.GeoDataFrame(
+    affected_properties,
+    geometry=gpd.points_from_xy(affected_properties.longitude, affected_properties.latitude),
+    crs="EPSG:4326"
+).to_crs(boroughs.crs)
 
-plt.legend()
-plt.title('Spatial Distribution of Affected Listings (Professional Landlords)')
-plt.xlabel('Longitude')
-plt.ylabel('Latitude')
+#Plot
+fig, ax = plt.subplots(figsize=(8, 8))
+
+#Borough boundaries for context
+boroughs.boundary.plot(ax=ax, linewidth=0.8, color="black", alpha=0.7)
+
+#All listings with grey
+gdf_listings.plot(
+    ax=ax,
+    markersize=0.6,
+    color="grey",
+    alpha=0.8,
+    label="All listings"
+)
+
+#Affected listings with red
+affected_gdf.plot(
+    ax=ax,
+    markersize=2.0,
+    color="red",
+    alpha=0.1,
+    label="Affected listings"
+)
+
+ax.set_title("All Airbnb Listings & Listings Affected by the Proposal", fontsize=14, pad=12)
+ax.set_axis_off()
+ax.legend(loc="lower left", frameon=True)
+
 plt.show()
 ```
-
+Here is a simple graph shows all lisings and those be affected. The grey points show the full distribution of Airbnb listings across London, while the red points highlight those affected by the proposal.
 
 ### 3.3 Affected host's Map
 
