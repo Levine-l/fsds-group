@@ -719,11 +719,11 @@ This pattern indicates that Airbnb activity in Westminster is not only borough-l
 
 ### 1.6 MSOA-level CLustering
 
-To identify the spatial types of Airbnb activities in London, we selected three variables at the MSOA level to do clustering.
+To identify distinct neighbourhood-level patterns of Airbnb activity in London, we classify MSOAs using clustering based on three indicators: listing density, average price, and the share of listings exceeding the 90-day threshold.
 
 **Assumption**
 
-We assume that the three selected variables, such as listing count, average price, and the share of listings exceeding 90 days represent the fundamental aspect of Airbnb intensity and commercialisation at the neighbourhood level. We also assume that k-means clustering with three clusters provides us a useful and understanable way to group Airbnb activity, balancing analytical simplicity with sufficient differentiation across MSOAs.
+We assume that these three variables capture the core dimensions of Airbnb intensity and commercialisation at the neighbourhood scale. A three-cluster k-means solution is used to balance interpretability with sufficient differentiation across MSOAs.
 
 
 ```{python}
@@ -798,15 +798,11 @@ ax.set_title("MSOA-level Airbnb Typologies (Clustering)")
 plt.show()
 ```
 
-The k-means clustering results yield three distinct Airbnb area types. The highest-intensity cluster is characterized by a combination of a very large number of listings, high average prices, and significant violations of the 90-day rule which strongly concentrated in Central London. In this context, our clustering provides additional evidence that the phenomenon is not only evident at the borough level but also structured down to the neighborhood scale (MSOA).
-
-The second cluster exhibits a different, but still problematic, pattern. Although the number of listings and average prices are lower than those in the intensive cluster, areas within this cluster have the highest proportion of listings >90 days. This suggests that in semi-residential areas, Airbnb operates more “invisibly” as a sustainable short-term rental, though not always at a large scale or at premium prices. This pattern supports what Barron et al. (2021) said that Airbnb has the biggest effect on the housing market when residential units are switched from the long-term to the short-term rental market, no matter where they are. 
-
-By contrast, the low-intensity cluster includes the majority of London’s suburban MSOAs, characterised by fewer listings, more moderate prices, and lower rates of 90-day exceedance. This cluster most closely reflects the original home-sharing model of Airbnb and indicates that “out of control” dynamics are not present uniformly across the city.
+The clustering reveals three distinct Airbnb typologies. The high-intensity cluster is concentrated in central London and combines high listing densities, higher prices, and elevated rates of 90-day exceedance, indicating areas where Airbnb operates most clearly as a large-scale commercial activity. A second, medium-intensity cluster shows lower listing densities and prices but the highest share of listings exceeding 90 days, suggesting more “embedded” commercial use within residential neighbourhoods. This pattern aligns with findings by @barron_effect_2021 that housing impacts arise when dwellings are persistently shifted from long-term to short-term rental use, even outside prime tourist zones. The low-intensity cluster, covering much of suburban London, exhibits fewer listings, moderate prices, and lower exceedance rates, closely reflecting casual home-sharing.
 
 **Conclusion**
 
-The MSOA-level clustering confirms that Airbnb in London is not only concentrated in certain areas but also work differently indifferent neihborhoods. High- and medium-intensity clusters show where Airbnb is most likely to be a long-term business, which could affect the availability of housing and the stability ofneighboorhoods. These results support the idea that policies should be tailored to certain areas and have diverse structures, rather than being the same for the whole city.
+This MSOA-level typology confirms that Airbnb in London is not only spatially concentrated but also operates differently across neighbourhoods. High- and medium-intensity clusters identify where Airbnb is most likely to function as a sustained business activity, suggesting that area-specific regulatory responses are more appropriate than uniform city-wide measures.
  
 
 ### 1.7 Overall Conclusion
