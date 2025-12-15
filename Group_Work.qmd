@@ -425,7 +425,7 @@ df['high_high'] = df['over_90'] & df['high_price']
 print(f"Share of listings both >90 days and >£200: {df['high_high'].mean():.2%}")
 ```
 
-When combined with availability patterns from Section 1.1, 22.91% of listings are both available for more than 90 days and priced above £150, suggesting operation as full-time, high-priced accommodation. This aligns with findings by @barron_effect_2021 that Airbnb expansion encourages the conversion of residential housing into short-term commercial assets.
+When combined with availability patterns from Section 1.1, 22.91% of listings are both available for more than 90 days and priced above £200, suggesting operation as full-time, high-priced accommodation. This aligns with findings by @barron_effect_2021 that Airbnb expansion encourages the conversion of residential housing into short-term commercial assets.
 
 **Conclusion**
 
