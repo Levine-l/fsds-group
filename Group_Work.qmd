@@ -371,11 +371,12 @@ Availability_365 does not directly measure occupancy and may overestimate non-co
 
 ### 1.2 Price level
 
-Price level of Airbnb in London is another key aspect to indicate if airbnb out of control.
+Price levels provide a complementary indicator of whether Airbnb activity in London has shifted from casual home-sharing toward commercial operation.
 
 **Assumption**
 
-We use price level as a complementary indicator of whether Airbnb activity in London has shifted away from casual home-sharing toward commercial operation. The underlying assumption is that consistently high nightly prices are more likely to be associated with professionally managed, investment-oriented properties than with residents occasionally renting spare rooms.
+We assume that consistently high nightly prices are more likely to reflect professionally managed, investment-oriented properties than occasional room rentals by residents.
+
 
 
 ```{python}
@@ -394,7 +395,7 @@ print("Price summary statistics:")
 print(df['price'].describe())
 ```
 
-Based on statistics, the average price was around £185 per night, with a median of £134, but the highest price was £1,999, demonstrating significant price inequality. To determine the extent to which Airbnb activity has evolved away from its original goal of home-sharing, we set a “high” price threshold of more than £200 per night. The results show that 29.38% of listings are priced above £200, a significant proportion for a market that is supposedly dominated by non-commercial short-term rentals.
+Price data show a highly unequal distribution. The average nightly price is approximately £185, with a median of £134, while extreme values reach nearly £2,000 per night. Using £200 per night as a conservative threshold for high-priced listings, we find that 29.38% of listings exceed this level, a substantial share for a market intended to support non-commercial short-term rentals.
 
 
 ```{python}
@@ -410,7 +411,7 @@ print("\nShare of >£200 listings by room type:")
 print((high_price_by_type * 100).round(2).astype(str) + "%")
 ```
 
-When these findings are disaggregated by property type, the pattern of commercialization becomes clearer. Entire home/apartment listings have the highest proportion in the high-price category with approximately 41.32% of these units are priced above £200 per night. This is significant because this property type is the type that has the potential to reduce the supply of long-term rentals when transferred to the Airbnb market. In contrast, private and shared rooms have a considerably smaller proportion of expensive properties, which suggest that commercialization is mostly driven by units with higher economic worth.
+Disaggregating by property type reveals clearer signs of commercialisation. Entire homes/apartments show the highest concentration of high-priced listings, with 41.32% priced above £200 per night. This is particularly significant because this category poses the greatest risk to long-term housing supply when diverted to short-term use. In contrast, private and shared rooms show far lower proportions of high-priced listings.
 
 
 
@@ -424,15 +425,15 @@ df['high_high'] = df['over_90'] & df['high_price']
 print(f"Share of listings both >90 days and >£200: {df['high_high'].mean():.2%}")
 ```
 
-We combined the price analysis with the findings in section 1.1 regarding availability of more than 90 days (an indication of regulatory violations). This combined result shows that 22.91% of listings in London are not only available for more than 90 days but also priced at a premium of over £150. In other words, nearly a quarter of listings in London appear to operate as full-time, high-priced lodging businesses. These findings are consistent with literature such as @barron_effect_2021, which suggests that Airbnb encourages the conversion of residential units into short-term commercial assets, thereby tightening the rental market and potentially driving up housing prices.
+When combined with availability patterns from Section 1.1, 22.91% of listings are both available for more than 90 days and priced above £150, suggesting operation as full-time, high-priced accommodation. This aligns with findings by @barron_effect_2021 that Airbnb expansion encourages the conversion of residential housing into short-term commercial assets.
 
 **Conclusion**
 
-Overall, this pricing analysis reinforces the conclusion that Airbnb in London is showing signs of being out of control. Most of the postings are not available for more than 90 days, but a large number of them are also being offered at exorbitant prices, especially in the entire homes category which is the most important category for the housing issues. This pattern indicates a clear shift from the initial idea of home-sharing to a more intensive commercial operating model. 
+Overall, this pricing analysis reinforces the conclusion that Airbnb in London is showing signs of being out of control. 
 
 **Limitation**
 
-We acknowledge that high prices may not always reflect exceptional locations or property quality rather than professional management. However, the convergence of price, availability, and property-type signals make this uncertaintymuch less.While exact numbers should be taken with a grain of salt, the effect's direction and size are strong enough to be useful in policy discussions. 
+High prices may also reflect location or property quality rather than professional management. 
 
 
 ### 1.3 Kernel Density Estimation
