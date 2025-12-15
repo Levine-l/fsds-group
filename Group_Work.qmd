@@ -364,10 +364,6 @@ Listings operating for more than 90 days also tend to have higher prices than co
 
 Taken together, high levels of availability beyond the 90-day limit, consistent patterns across property types, and pricing signals associated with commercial use suggest that Airbnb activity in London exhibits characteristics of being “out of control.” The platform appears increasingly dominated by professional operators running large-scale short-term rental businesses rather than occasional home-sharing, with potential consequences for long-term housing availability.
 
-**Limitation**
-
-Availability_365 does not directly measure occupancy and may overestimate non-compliance where hosts block calendars for non-rental reasons. 
-
 
 ### 1.2 Price level
 
@@ -431,9 +427,6 @@ When combined with availability patterns from Section 1.1, 22.91% of listings ar
 
 Overall, this pricing analysis reinforces the conclusion that Airbnb in London is showing signs of being out of control. 
 
-**Limitation**
-
-High prices may also reflect location or property quality rather than professional management. 
 
 
 ### 1.3 Kernel Density Estimation
@@ -529,10 +522,6 @@ plt.show()
 **Conclusion**
 
 The results show that Airbnb activity is highly concentrated in central London, rather than evenly distributed across the city. These areas also coincide with locations most exposed to housing market pressures. This spatial concentration reinforces earlier findings that Airbnb activity in London exhibits characteristics of being “out of control,” combining regulatory exceedance with intensive use in high-value areas. This pattern is consistent with international evidence linking central-city Airbnb density to rising rents and the conversion of residential housing into short-term rentals (@barron_effect_2021).
-
-**Limitation**
-
-KDE results are sensitive to bandwidth choice and do not directly measure occupancy or displacement. 
 
 
 ### 1.4 Airbnb Distribution in London
@@ -632,9 +621,6 @@ These figures indicate that the majority of listings in London's core areas are 
 
 Overall, Airbnb activity is highly concentrated in central and inner-west London, while suburban boroughs exhibit much lower densities (@shabrina_airbnb_2022). This suggests that the Airbnb-related housing pressure is not city-wide, but concentrated in a limited number of strategic hotspots. At the borough level, Airbnb in London therefore exhibits characteristics of being “out of control” in a spatially concentrated and professionalised manner, with disproportionate impacts on long-term housing availability in central areas.
 
-**Limitation**
-
-The “more than two listings” threshold may undercount professional operators using multiple platforms or corporate structures.
 
 
 
@@ -823,14 +809,12 @@ By contrast, the low-intensity cluster includes the majority of London’s subur
 The MSOA-level clustering confirms that Airbnb in London is not only concentrated in certain areas but also work differently indifferent neihborhoods. High- and medium-intensity clusters show where Airbnb is most likely to be a long-term business, which could affect the availability of housing and the stability ofneighboorhoods. These results support the idea that policies should be tailored to certain areas and have diverse structures, rather than being the same for the whole city.
  
 
-**Limitation**
-
-We acknowledge that the clustering results are sensitive to the choice of variables and the number of clusters, and alternative specifications could yield slightly different typologies. In addition, MSOA-level aggregation may mask variation within smaller neighbourhoods or individual buildings, particularly in dense mixed-use areas. Finally, the analysis relies on listing characteristics rather than direct measures of occupancy or profitability, meaning that cluster membership reflects potential intensity of use rather than confirmed regulatory non-compliance.
-
-
 ### 1.7 Overall Conclusion
 
 Based on the overall analysis of 1.1–1.6, we conclude that Airbnb in London exhibits a spatially and structurally “out-of-control” situation, although not uniformly across the city. Airbnb’s regulatory overreach, combined with high prices, extreme density in the city center, and the dominance of professional hosts, suggests that the platform has shifted from a home-sharing model to a commercialized short-term rental operation. 
+
+### 1.8 Limitation
+There are several limitations in our analysis. First, Availability_365 does not directly measure occupancy and may overestimate non-compliance where hosts block calendars for non-rental reasons. Second, high prices may reflect location or property quality rather than professional management. Third, using boroughs and MSOAs as spatial units may hide variation within neighbourhoods or individual buildings. Finally, defining professional hosts as those with more than two listings is conservative and likely underestimates commercialisation. Which means, the results showing overall patterns rather than precise measurements of regulatory non-compliance.
 
 
 ## Question 2: How many professional landlords are there?
