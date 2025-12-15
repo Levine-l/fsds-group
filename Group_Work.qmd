@@ -996,6 +996,8 @@ ax.set_title("Proportion of Listings Affected by the Proposal")
 ax.set_axis_off()
 plt.show()
 ```
+We also plot a map of the proportion of Airbnb housing affected by the proposal. We can see that the affected rate in the centre of London is very high, and then other high ratio areas are scattered on the map, such as wembley and Brent cross, which may produce many professional landlords due to regional characteristics such as stadiums. This indicates that in many high-pressure areas, most housing units are operated by professional landlords and will therefore be subject to proposed regulations.
+
 
 ### Conlusion
 From the first paragraph, the opposition's proposal will have a significant impact on the Airbnb market in London. Although only about 35% of hosts will be affected, but these hosts control about 65% of the housing, indicating that the proposal is mainly aimed at a small number of highly commercialised operators, not casual home sharers.
