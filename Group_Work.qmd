@@ -442,7 +442,7 @@ In order to understand the spatial distribution pattern of Airbnb in London, we 
 
 **Assumption**
 
-To assess whether Airbnb activity in London is spatially “out of control,” we examine not only how much Airbnb exists, but where it is concentrated. We assume that spatial clustering of listings especially when combined with high availability and high prices will indicates  commercialised short-term rental activity rather than dispersed, casual home-sharing.
+From their spatial concentration， the underlying assumption is that strong spatial clustering, particularly when combined with high availability and high prices, reflects commercialised short-term rental activity rather than dispersed, casual home-sharing.
 
 
 ```{python}
@@ -457,7 +457,7 @@ msoa_stats_q1 = listings_msoa.groupby('MSOA11CD').agg(
 msoa_stats_q1.head()
 ```
 
-We used Kernel Density Estimation (KDE) to analysis the distribution patterns of Airbnb activity in London. Before we made the KDE, we combined listing data to the MSOA level to calculate the number of listings, the ratio of listings exceeding 90 days of availability, and the average price in each area. This approach helped us link spatial patterns to indicators of misuse, such as the dominance of long-term rentals and the tendency for commercialization. We then extracted the coordinates of each listing and used the KDE with a bandwidth of 750 meters to estimate how many people using Airbnb across London.
+We apply Kernel Density Estimation (KDE) to identify patterns of spatial intensity across London. Prior to the KDE analysis, listing data were aggregated to the MSOA level to calculate the number of listings, the share exceeding 90 days of availability, and average prices in each area. This allowed spatial density patterns to be interpreted alongside indicators of regulatory pressure and commercial use. Using individual listing coordinates, KDE was then applied with a bandwidth of 750 metres to estimate areas of concentrated Airbnb activity.
 
 
 ```{python}
@@ -528,11 +528,11 @@ plt.show()
 
 **Conclusion**
 
-Overall, the KDE analysis shows that Airbnb in London is not uniformly spread out. Instead, it is mostly in the city center which is the location that is most affected by changes in the property market. This situation reinforces our conclusion that Airbnb activity in London is showing signs of being "out of control," as not only are there violations of the 90-day rule but also a systematic spatial pattern in which high-value areas have been taken over by intensive Airbnb operations. This pattern aligns with international research (including @barron_effect_2021) showing that Airbnb density in city centers is associated with increased rental prices and the conversion of residential units to short-term rentals.
+The results show that Airbnb activity is highly concentrated in central London, rather than evenly distributed across the city. These areas also coincide with locations most exposed to housing market pressures. This spatial concentration reinforces earlier findings that Airbnb activity in London exhibits characteristics of being “out of control,” combining regulatory exceedance with intensive use in high-value areas. This pattern is consistent with international evidence linking central-city Airbnb density to rising rents and the conversion of residential housing into short-term rentals (@barron_effect_2021).
 
 **Limitation**
 
-We recognise that KDE results are sensitive to bandwidth choice and do not directly measure occupancy or displacement. However, the robustness of the central-city clustering across multiple indicators, such as density, availability, and price. This gives us confidence that the observed spatial patterns reflect genuine structural dynamics rather than modelling artefacts.
+KDE results are sensitive to bandwidth choice and do not directly measure occupancy or displacement. 
 
 
 ### 1.4 Airbnb Distribution in London
