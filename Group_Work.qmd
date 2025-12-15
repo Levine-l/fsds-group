@@ -73,7 +73,7 @@ Are there any areas on which you would appreciate more detailed feedback if we'r
 #| output: false
 #Start data loading and preprocessing
 from conf import *
-from ydata_profiling import ProfileReport
+#from ydata_profiling import ProfileReport
 from pathlib import Path
 import pandas as pd
 import numpy as np
