@@ -924,7 +924,7 @@ msoa_affected_map.plot(
     ax=ax
 )
 
-ax.set_title("Proportion of Listings Affected by the Proposal")
+ax.set_title("Proportion of Listings in each area Affected by the Proposal")
 ax.set_axis_off()
 plt.show()
 ```
