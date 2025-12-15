@@ -423,9 +423,6 @@ print(f"Share of listings both >90 days and >£200: {df['high_high'].mean():.2%}
 
 When combined with availability patterns from Section 1.1, 22.91% of listings are both available for more than 90 days and priced above £200, suggesting operation as full-time, high-priced accommodation. This aligns with findings by @barron_effect_2021 that Airbnb expansion encourages the conversion of residential housing into short-term commercial assets.
 
-**Conclusion**
-
-Overall, this pricing analysis reinforces the conclusion that Airbnb in London is showing signs of being out of control. 
 
 
 
@@ -521,16 +518,14 @@ plt.show()
 
 **Conclusion**
 
-The results show that Airbnb activity is highly concentrated in central London, rather than evenly distributed across the city. These areas also coincide with locations most exposed to housing market pressures. This spatial concentration reinforces earlier findings that Airbnb activity in London exhibits characteristics of being “out of control,” combining regulatory exceedance with intensive use in high-value areas. This pattern is consistent with international evidence linking central-city Airbnb density to rising rents and the conversion of residential housing into short-term rentals (@barron_effect_2021).
+The results show that Airbnb activity is highly concentrated in central London, rather than evenly distributed across the city. This spatial concentration reinforces earlier findings that Airbnb activity in London exhibits characteristics of being “out of control,” combining regulatory exceedance with intensive use in high-value areas. 
 
 
 ### 1.4 Airbnb Distribution in London
 
 This map provides a descriptive overview of the spatial concentration of Airbnb listings across London boroughs. While it does not constitute a formal hotspot analysis, the strong visual clustering suggests that Airbnb activity is highly uneven and concentrated in specific inner-city areas.
 
-**Assumption**
-
-To further assess whether Airbnb activity in London is “out of control,” we examine its borough-level concentration and the frequency of multi-listers which we defined as hosts operating more than two listings. We use multi-lister share as a proxy for professionalisation, under the assumption that managing multiple properties simultaneously requires capital, operational capacity, and a business-oriented model rather than casual home-sharing.
+To further assess whether Airbnb activity in London is “out of control,” we calculate the proportion for professional landlord.
 
 
 ```{python}
@@ -594,8 +589,7 @@ plt.tight_layout()
 plt.show()
 ```
 
-The results show a clear alignment between spatial concentration and professionalisation. Boroughs with the highest number of listings also exhibit the highest multi-lister shares. Westminster records the largest number of listings (8,347) and the highest multi-lister share (84%), followed by Kensington and Chelsea (80%) and Camden (77%). This indicates that Airbnb activity in London’s core areas is dominated by professional operators managing multiple units, rather than individual residents renting occasionally.
-
+The results show a clear alignment between spatial concentration and professionalisation. Boroughs with the highest number of listings also exhibit the highest multi-lister shares. Westminster records the largest number of listings (8,347) and the highest multi-lister share (84%).
 ```{python}
 fig, ax = plt.subplots(figsize=(9,7))
 
@@ -620,8 +614,6 @@ These figures indicate that the majority of listings in London's core areas are 
 **Conclusion**
 
 Overall, Airbnb activity is highly concentrated in central and inner-west London, while suburban boroughs exhibit much lower densities (@shabrina_airbnb_2022). This suggests that the Airbnb-related housing pressure is not city-wide, but concentrated in a limited number of strategic hotspots. At the borough level, Airbnb in London therefore exhibits characteristics of being “out of control” in a spatially concentrated and professionalised manner, with disproportionate impacts on long-term housing availability in central areas.
-
-
 
 
 
@@ -713,8 +705,7 @@ The results show that Airbnb activity within Westminster is highly uneven. While
 
 **Conclusion**
 
-This pattern indicates that Airbnb activity in Westminster is not only borough-level concentrated but also intensely localised within a small number of MSOAs. These super-dense zones are likely to function more like informal hotel districts than home-sharing areas, reinforcing evidence that Airbnb activity in London is “out of control” in specific high-pressure locations. This finding is consistent with prior research linking Airbnb misuse to tourism-intensive, high-value neighbourhoods (@shabrina_airbnb_2022).
-
+This pattern indicates that Airbnb activity in Westminster is intensely localised within a small number of MSOAs， which are more like informal hotel districts than home-sharing areas, reinforcing evidence that Airbnb activity in London is “out of control” in specific high-pressure locations. 
 
 
 ### 1.6 MSOA-level CLustering
@@ -802,7 +793,7 @@ The clustering reveals three distinct Airbnb typologies. The high-intensity clus
 
 **Conclusion**
 
-This MSOA-level typology confirms that Airbnb in London is not only spatially concentrated but also operates differently across neighbourhoods. High- and medium-intensity clusters identify where Airbnb is most likely to function as a sustained business activity, suggesting that area-specific regulatory responses are more appropriate than uniform city-wide measures.
+This MSOA-level typology confirms that Airbnb operates differently across neighbourhoods. High- and medium-intensity clusters identify where Airbnb is most likely to function as a sustained business activity, suggesting that area-specific regulatory responses are more appropriate than uniform city-wide measures.
  
 
 ### 1.7 Overall Conclusion
@@ -810,7 +801,7 @@ This MSOA-level typology confirms that Airbnb in London is not only spatially co
 Based on the overall analysis of 1.1–1.6, we conclude that Airbnb in London exhibits a spatially and structurally “out-of-control” situation, although not uniformly across the city. Airbnb’s regulatory overreach, combined with high prices, extreme density in the city center, and the dominance of professional hosts, suggests that the platform has shifted from a home-sharing model to a commercialized short-term rental operation. 
 
 ### 1.8 Limitation
-There are several limitations in our analysis. First, Availability_365 does not directly measure occupancy and may overestimate non-compliance where hosts block calendars for non-rental reasons. Second, high prices may reflect location or property quality rather than professional management. Third, using boroughs and MSOAs as spatial units may hide variation within neighbourhoods or individual buildings. Finally, defining professional hosts as those with more than two listings is conservative and likely underestimates commercialisation. Which means, the results showing overall patterns rather than precise measurements of regulatory non-compliance.
+This analysis has several limitations. Availability_365 may overstate non-compliance, high prices may reflect quality rather than professionalisation, spatial aggregation may mask local variation, and the multi-listing threshold likely underestimates commercial activity. The findings should therefore be interpreted as indicative patterns rather than precise measures of illegality.
 
 
 ## Question 2: How many professional landlords are there?
@@ -1008,32 +999,31 @@ Overall, the proposal may significantly reduce the scale of specialised short-te
 
 
 ## Question 4: What are the likely pros and cons of the opposition’s proposal (for the Mayor, for residents, and for the city)?
-According to the findings from Questions 1–3, the opposition’s proposal to regulate professional Airbnb activity would have differentiated impacts for the Mayor, residents, and the city. Our analysis shows that Airbnb activity in London is highly concentrated, dominated by professional landlords, and spatially uneven, suggesting that a targeted regulatory approach may be more effective than blanket restrictions.
 
 ### 4.1  Implication for Mayor
 
-For the Mayor, the main advantage is political and strategic credibility. Focusing regulation on professional short-term rental operators directly reflects the empirical patterns identified in this study, allowing the Mayor to frame the policy as evidence-led, proportionate, and fair. By distinguishing between casual home-sharing and commercial activity, the Mayor can address housing pressures without penalising ordinary residents, consistent with best practice in urban planning (@gurran_when_2017). This framing also strengthens the case for targeted fiscal measures, such as higher Council Tax rates or levies on commercial short-term rentals, which can be justified as internalising external costs in high-impact areas. However, professional landlords are likely to resist regulation through lobbying or legal challenges (@barron_effect_2021), creating political and institutional risks. There is also a risk that adopting an opposition proposal may appear reactive unless clearly communicated as an independent, data-driven strategy.
+For the Mayor, a regulatory focus on professional short-term rental operators offers strong political and strategic credibility. Targeting commercial activity reflects the empirical patterns identified in this study and allows the policy to be framed as evidence-led, proportionate, and fair. By distinguishing casual home-sharing from business-oriented short-term rentals, housing pressures can be addressed without penalising ordinary residents, consistent with urban planning best practice (@gurran_when_2017). This approach also supports targeted fiscal measures, such as higher Council Tax rates or levies on commercial rentals, which can be justified as internalising external costs in high-impact areas. However, professional landlords are likely to resist regulation through lobbying or legal challenges (@barron_effect_2021), and the Mayor must clearly communicate the policy as an independent, data-driven strategy rather than a reactive political response.
 
 ### 4.2 Implication for Residents 
 
-For residents, especially in central boroughs, the proposal may improve housing availability and neighbourhood stability. As shown in Question 3, many professional Airbnb listings operate on a near full-time basis, reducing long-term rental supply. Regulating this segment may encourage some properties to return to the long-term market, alleviating pressure in the most affected neighbourhoods, even if city-wide rent reductions remain unlikely (@garcia-lopez_short-term_2020). Reduced clustering of short-term rentals may also improve quality of life by lowering noise, turnover, and social disruption (@gurran_when_2017). However, residents may face trade-offs. Airbnb provides flexible accommodation for students, temporary workers, and families in transition, and tighter regulation may reduce these options in central locations. There is also a risk that costs shift to hotels or serviced apartments, disproportionately affecting middle-income users who relied on Airbnb as a relatively affordable option.
+For residents, particularly in central boroughs, regulation may improve housing availability and neighbourhood stability. As shown in Question 3, many professional Airbnb listings operate on a near full-time basis, reducing long-term rental supply. Regulating this segment may encourage some properties to return to the long-term market, easing pressure in the most affected areas, even if city-wide rent reductions remain limited (@garcia-lopez_short-term_2020). Reduced clustering may also improve quality of life by lowering noise, turnover, and social disruption (@gurran_when_2017). Nevertheless, residents may face trade-offs: Airbnb provides flexible accommodation for students, temporary workers, and households in transition, and tighter regulation may reduce these options in central locations. Cost shifting toward hotels or serviced apartments may also disproportionately affect middle-income users.
 
 ### 4.3 Implication for City
 
-At the city scale, targeted regulation may improve housing market efficiency by limiting the conversion of residential properties into commercial short-term rentals, particularly in high-pressure areas. Improved registration and monitoring could also strengthen governance capacity and enable more adaptive regulation over time. Nonetheless, displacement effects remain a concern, as activity may shift to other boroughs or platforms rather than disappear entirely (@garcia-lopez_short-term_2020). Given the uneven geography of Airbnb impacts, uniform city-wide rules may be inefficient, raising questions about spatial fairness and enforcement effectiveness.
+At the city scale, targeted regulation may improve housing market efficiency by limiting the conversion of residential properties into commercial short-term rentals in high-pressure areas. Enhanced registration and monitoring can strengthen governance capacity and support more adaptive policy responses. However, displacement effects remain a risk, as activity may shift to other boroughs or platforms rather than disappear (@garcia-lopez_short-term_2020). Given the uneven spatial distribution of Airbnb impacts, uniform city-wide regulation may be inefficient, highlighting the need for spatially differentiated enforcement.
 
 
 ## Question 5: Can the story be reframed as a positive one about social mobility or housing opportunity?
 
-The controversy surrounding the ownership of multiple Airbnb properties by a single advisor risks oversimplifying the structure of London’s Airbnb market. Evidence from Questions 1–3 shows that the core issue is not casual home-sharing, but the dominance of professional landlords who control a disproportionate share of listings and operate intensively in central boroughs. This distinction creates scope for a more constructive reframing of the debate.
+The controversy surrounding multi-property Airbnb ownership risks oversimplifying London’s short-term rental market. Evidence from Questions 1–3 shows that the core problem is not casual home-sharing, but the dominance of professional landlords who control a disproportionate share of listings and operate intensively in central boroughs. This distinction creates scope for a more constructive reframing of the debate.
 
-Rather than portraying Airbnb as inherently harmful, the Mayor can reframe the issue around how economic benefits are distributed and who gains from short-term rental activity. For a subset of London residents, Airbnb continues to function as a source of supplementary income and economic resilience. Small-scale hosts may rent out spare rooms or properties to offset rising living costs, manage mortgage payments, or maintain housing security without exiting the labour market (@arenoe_game_2015; @sundararajan_sharing_2016). In this sense, genuine home-sharing can still be framed as supporting limited forms of social mobility and household stability.
+Rather than portraying Airbnb as inherently harmful, the Mayor can focus on how benefits are distributed and who gains from short-term rental activity. For some London residents, Airbnb still provides supplementary income and economic resilience, allowing households to offset rising living costs or maintain housing security (@arenoe_game_2015; @sundararajan_sharing_2016). In this limited sense, genuine home-sharing can support household stability and modest forms of social mobility.
 
-However, the empirical findings indicate that this positive narrative cannot be generalised across the entire market. As shown in Questions 1–3, professional landlords dominate listings in high-demand central areas, transforming Airbnb from a sharing platform into a mechanism for housing commodification. A credible reframing strategy therefore requires differentiation rather than defence of the platform as a whole.
+However, this positive narrative cannot be generalised. As shown in Questions 1–3, professional operators dominate high-demand central areas, transforming Airbnb from a sharing platform into a mechanism for housing commodification. A credible reframing therefore requires differentiation rather than blanket defence.
 
-The Mayor can emphasise that regulation is designed to protect socially beneficial forms of home-sharing while curbing large-scale commercial use. This includes clearly communicating that hosts with one or two listings remain part of the sharing economy, whereas professional operators face stricter rules. Regulation can thus be framed not as anti-innovation, but as a means of safeguarding ordinary residents’ income opportunities from being crowded out by elite actors engaged in property accumulation.
+The Mayor can emphasise that regulation aims to protect socially beneficial home-sharing while constraining large-scale commercial use. Hosts with one or two listings remain part of the sharing economy, whereas professional operators face stricter controls. Regulation can thus be framed not as anti-innovation, but as safeguarding ordinary residents’ income opportunities from being crowded out by property accumulation.
 
-In this way, the Mayor can reposition the controversy as part of a broader commitment to balancing innovation, social mobility, and housing access. Optimistic narratives about the sharing economy’s potential (@arenoe_game_2015; @sundararajan_sharing_2016) can coexist with concerns about over-commercialisation (@slee_whats_2015), provided that regulation remains selective, targeted, and grounded in empirical evidence from the London context.
+In this way, the controversy can be repositioned as part of a broader commitment to balancing innovation, social mobility, and housing access, grounded in empirical evidence from the London context.
 
 
 ## References
