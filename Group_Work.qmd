@@ -910,48 +910,7 @@ plt.show()
 ```
 The above figure shows the distribution of Airbnb housing affected by the proposal in various borough of London. Westminster seems to be affected far more than other borough, followed by Kensington and Chelsea, Camden and Tower Hamlets, which coincides with the previously determined overall spatial distribution pattern of Airbnb activities.
 
-### 3.2 Display the location of professional landlord listings on a map
-
-```{python}
-affected_gdf = gpd.GeoDataFrame(
-    affected_properties,
-    geometry=gpd.points_from_xy(affected_properties.longitude, affected_properties.latitude),
-    crs="EPSG:4326"
-).to_crs(boroughs.crs)
-
-#Plot
-fig, ax = plt.subplots(figsize=(8, 8))
-
-#Borough boundaries for context
-boroughs.boundary.plot(ax=ax, linewidth=0.8, color="black", alpha=0.7)
-
-#All listings with grey
-gdf_listings.plot(
-    ax=ax,
-    markersize=0.6,
-    color="grey",
-    alpha=0.8,
-    label="All listings"
-)
-
-#Affected listings with red
-affected_gdf.plot(
-    ax=ax,
-    markersize=2.0,
-    color="red",
-    alpha=0.1,
-    label="Affected listings"
-)
-
-ax.set_title("All Airbnb Listings & Listings Affected by the Proposal", fontsize=14, pad=12)
-ax.set_axis_off()
-ax.legend(loc="lower left", frameon=True)
-
-plt.show()
-```
-Here is a simple graph shows all lisings and those be affected. The grey points show the full distribution of Airbnb listings across London, while the red points highlight those affected by the proposal.
-
-### 3.3 Affected host's Map
+### 3.2 Affected host's Map
 
 ```{python}
 #affected listings
@@ -986,7 +945,7 @@ ax.set_title("Proportion of Listings Affected by the Proposal")
 ax.set_axis_off()
 plt.show()
 ```
-We also plot a map of the proportion of Airbnb housing affected by the proposal. We can see that the affected rate in the centre of London is very high, and then other high ratio areas are scattered on the map, such as wembley and Brent cross, which may produce many professional landlords due to regional characteristics such as stadiums. This indicates that in many high-pressure areas, most housing units are operated by professional landlords and will therefore be subject to proposed regulations.
+We plot a map of the proportion of Airbnb housing affected by the proposal. We can see that the affected rate in the centre of London is very high, and then other high ratio areas are scattered on the map, such as wembley and Brent cross, which may produce many professional landlords due to regional characteristics such as stadiums. This indicates that in many high-pressure areas, most housing units are operated by professional landlords and will therefore be subject to proposed regulations.
 
 
 ### Conlusion
