@@ -605,8 +605,7 @@ plt.tight_layout()
 plt.show()
 ```
 
-This chart shows the distribution of Airbnb housing in various borough of London. The bar chart shows the total number of Airbnb by borough, and the line shows the proportion of Airbnb operated by multiple landlords. There is a significant correlation between spatial concentration and professionalisation. Westminster records the largest (8,347), followed by Kensington and Chelsea (4,697), Camden (4,473) and Tower Hamlets (4,414). The proportion of multiple listings host in these administrative regions is also significantly high, which shows that the area where Airbnb housing resources are most concentrated is also the area where professional landlords are most concentrated. This find just coincides with the strong tourism demand and high housing prices in central and inner-west London, further confirming that Airbnb's activities in London are highly localised rather than evenly distributed throughout the city.
-
+The results show a clear alignment between spatial concentration and professionalisation. Boroughs with the highest number of listings also exhibit the highest multi-lister shares. Westminster records the largest number of listings (8,347) and the highest multi-lister share (84%), followed by Kensington and Chelsea (80%) and Camden (77%). This indicates that Airbnb activity in London’s core areas is dominated by professional operators managing multiple units, rather than individual residents renting occasionally.
 
 ```{python}
 fig, ax = plt.subplots(figsize=(9,7))
@@ -627,15 +626,16 @@ ax.set_axis_off()
 plt.show()
 ```
 
-We also calculated the multi-lister share, which is the proportion of hosts who have more than two listings. This indicator shows the level of Airbnb's commercialization within a borough. The results are striking: the boroughs with the highest total listings also have the highest multi-listing rates. For example, Westminster recorded a multi-listing share of 84%, followed by Kensington and Chelsea (80%) and Camden (77%). These figures indicate that the majority of listings in London's core areas are not managed by home hosts but rather by professional operators operating multiple units, which indicates a large-scale short-term rental business model.
+These figures indicate that the majority of listings in London's core areas are not managed by home hosts but rather by professional operators operating multiple units, which indicates a large-scale short-term rental business model.
 
 **Conclusion**
 
-Overall, Central and Western London boroughs are were most of the dense clusters are, while suburban boroughs tend to have lower densities (@shabrina_airbnb_2022). In other words, we found that the Airbnb-related crisis was not city-wide, but concentrated in a few strategic hotspots that played a large role in reducing the availability of long-term housing and increasing price pressures in central London. So, from the borough-level analysis demonstrates that Airbnb in London exhibits characteristics of being “out of control” in a spatially concentrated and professionalised manner. 
+Overall, Airbnb activity is highly concentrated in central and inner-west London, while suburban boroughs exhibit much lower densities (@shabrina_airbnb_2022). This suggests that the Airbnb-related housing pressure is not city-wide, but concentrated in a limited number of strategic hotspots. At the borough level, Airbnb in London therefore exhibits characteristics of being “out of control” in a spatially concentrated and professionalised manner, with disproportionate impacts on long-term housing availability in central areas.
 
 **Limitation**
 
-We acknowledge that the “more than two listings” threshold may undercount professional operators who distribute properties across platforms or corporate structures. However, even under this conservative definition, the extremely high multi-lister shares observed in central boroughs provide strong evidence of systematic professionalisation.
+The “more than two listings” threshold may undercount professional operators using multiple platforms or corporate structures.
+
 
 
 
