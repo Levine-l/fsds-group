@@ -380,7 +380,7 @@ plt.figure(figsize=(10, 7))
 plt.hist(df['price'], bins=50, color='teal')
 plt.xlabel("Price (£)")
 plt.ylabel("Count of listings")
-plt.title("Distribution of Airbnb Prices in London (under £1000)")
+plt.title("Distribution of Airbnb Prices in London")
 plt.show()
 ```
 
