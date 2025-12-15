@@ -645,7 +645,7 @@ As shown in the map above, Westminster has the highest concentration of listings
 
 **Assumption**
 
- We conducted a more detailed analysis, focusing on the borough of Westminster, the area with the highest number of Airbnb listings in all of London. The aim of this analysis was to understand whether the “out of control” pattern is limited to the borough as a whole, or whether the concentration is even stronger when viewed at a smaller spatial level, namely Middle Layer Super Output Areas (MSOAs). By performing geometric clipping specifically for Westminster and then spatially joining the listing points and MSOA polygons, we were able to precisely calculate the number of listings in each MSOA.
+ We assume that extreme clustering at the MSOA level indicates intensive, potentially commercial short-term rental activity rather than dispersed home-sharing. Listing counts were calculated by spatially joining Airbnb listings to Westminster MSOAs following geometric clipping.
 
 
 ```{python}
@@ -723,19 +723,11 @@ ax.set_title("MSOA-Level Airbnb Activity in Westminster", fontsize=16)
 plt.show()
 ```
 
-The analysis revealed a total of 8,345 Airbnb listings in Westminster, a figure that confirms the borough's dominance as a major hotspot for short-term rental activity. However, the distribution is uneven within Westminster. Across Westminster MSOAs, listing counts range from very low levels to over one thousand, with the median MSOA containing far fewer listings, showing the extreme skew in the internal distribution. The map shows that several MSOAs in the east and southeast of Westminster have very high Airbnb intensity. These areas include the areas around Covent Garden, Soho, Leicester Square, and Victoria, areas that boast a unique combination of tourist attractions, major transport stations, and very high commercial density.
-
-
-In contrast, MSOAs located in the western half of Westminster, such as districts surrounding Maida Vale or St John's Wood exhibit much lower listing counts which indicates  that Airbnb is not only concentrated within the borough of Westminster, but also concentrated in specific pockets within it. In other words, the problem of short-term rentals, potentially violating the 90-day regulation and encouraging property commercialization, occurs in these super-dense zones, which cover only a small portion of Westminster but have a significant impact on the local housing market.
+The results show that Airbnb activity within Westminster is highly uneven. While the borough contains over 8,300 listings, most MSOAs host relatively few, whereas a small number record several hundred to over 1,000 listings each.
 
 **Conclusion**
 
-This MSOA analysis reinforces the conclusion that Airbnb in London, particularly in Westminster is showing very clear signs of being “out of control.” Even within a single borough, there are areas with such high listing levels that they likely operate more like informal hotels than simply home-sharing platforms. Furthermore, the extreme centralization pattern we found at the MSOA level is consistent with the findings of @shabrina_airbnb_2022, which explains that Airbnb abuse is most intense in locations with high tourism demand and high housing pressure.
- 
-
-**Limitation**
-
-We acknowledge that this MSOA-level analysis focuses exclusively on Westminster, the borough with the highest Airbnb concentration, and therefore may not be representative of intra-borough patterns elsewhere in London. In addition, MSOA-level counts capture the number of listings rather than actual occupancy or frequency of use, meaning that high listing density does not necessarily imply continuous activity or regulatory non-compliance. Finally, while MSOAs provide finer spatial resolution than boroughs, they may still mask variation within very small neighbourhoods or individual buildings, particularly in areas with dense mixed-use development.
+This pattern indicates that Airbnb activity in Westminster is not only borough-level concentrated but also intensely localised within a small number of MSOAs. These super-dense zones are likely to function more like informal hotel districts than home-sharing areas, reinforcing evidence that Airbnb activity in London is “out of control” in specific high-pressure locations. This finding is consistent with prior research linking Airbnb misuse to tourism-intensive, high-value neighbourhoods (@shabrina_airbnb_2022).
 
 
 
