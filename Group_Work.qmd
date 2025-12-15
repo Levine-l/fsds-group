@@ -734,9 +734,9 @@ cluster_profile
 ```{python}
 #add a lable to cluster
 cluster_labels = {
-    0: "High Airbnb represent areas",
+    0: "High Airbnb activity areas",
     1: "Moderate Airbnb activity areas",
-    2: "Low Airbnb presence areas"
+    2: "Low Airbnb activity areas"
 }
 
 msoa_stats_q1['cluster_label'] = msoa_stats_q1['cluster'].map(cluster_labels)
