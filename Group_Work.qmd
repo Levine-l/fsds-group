@@ -73,7 +73,7 @@ Are there any areas on which you would appreciate more detailed feedback if we'r
 #| output: false
 #Start data loading and preprocessing
 from conf import *
-#from ydata_profiling import ProfileReport
+from ydata_profiling import ProfileReport
 from pathlib import Path
 import pandas as pd
 import numpy as np
@@ -358,12 +358,11 @@ plt.ylabel("Price (£)")
 plt.show()
 ```
 
-Listings operating for more than 90 days also tend to have higher prices than compliant listings, with numerous outliers reaching £1,000–£2,000 per night. This pricing pattern is consistent with the argument of @barron_effect_2021 that Airbnb expansion facilitates a shift of housing from the long-term to the short-term rental market, placing upward pressure on rents and property values.
+Listings operating for more than 90 days also tend to have higher prices than compliant listings. This pricing pattern is consistent with the argument of @barron_effect_2021 that Airbnb expansion facilitates a shift of housing from the long-term to the short-term rental market, placing upward pressure on rents and property values.
 
 **Conclusion**
 
-Taken together, high levels of availability beyond the 90-day limit, consistent patterns across property types, and pricing signals associated with commercial use suggest that Airbnb activity in London exhibits characteristics of being “out of control.” The platform appears increasingly dominated by professional operators running large-scale short-term rental businesses rather than occasional home-sharing, with potential consequences for long-term housing availability.
-
+Taken together, high levels of availability beyond the 90-day limit, consistent patterns across property types, and pricing signals associated with commercial use suggest that Airbnb activity in London exhibits characteristics of being “out of control.” 
 
 ### 1.2 Price level
 
@@ -432,7 +431,7 @@ In order to understand the spatial distribution pattern of Airbnb in London, we 
 
 **Assumption**
 
-From their spatial concentration， the underlying assumption is that strong spatial clustering, particularly when combined with high availability and high prices, reflects commercialised short-term rental activity rather than dispersed, casual home-sharing.
+The analysis assumes that strong spatial clustering of Airbnb listings in London, particularly in areas with high prices and a high share of long-availability properties, reflects commercialised short-term rental activity rather than casual home-sharing. Spatial concentration is therefore treated as an indicator of potential regulatory pressure in the London housing market.
 
 
 ```{python}
@@ -446,9 +445,6 @@ msoa_stats_q1 = listings_msoa.groupby('MSOA11CD').agg(
 
 msoa_stats_q1.head()
 ```
-
-We apply Kernel Density Estimation (KDE) to identify patterns of spatial intensity across London. Prior to the KDE analysis, listing data were aggregated to the MSOA level to calculate the number of listings, the share exceeding 90 days of availability, and average prices in each area. This allowed spatial density patterns to be interpreted alongside indicators of regulatory pressure and commercial use. Using individual listing coordinates, KDE was then applied with a bandwidth of 750 metres to estimate areas of concentrated Airbnb activity.
-
 
 ```{python}
 #Convert listing points to EPSG:27700 for KDE
@@ -518,7 +514,7 @@ plt.show()
 
 **Conclusion**
 
-The results show that Airbnb activity is highly concentrated in central London, rather than evenly distributed across the city. This spatial concentration reinforces earlier findings that Airbnb activity in London exhibits characteristics of being “out of control,” combining regulatory exceedance with intensive use in high-value areas. 
+The results show that Airbnb listings in London are highly concentrated in central London, rather than evenly distributed across the city. These hotspots coincide with high-value areas and intensive use. It suggests that regulatory challenges are spatially uneven across London and may be more effectively addressed through targeted, area-specific interventions.
 
 
 ### 1.4 Airbnb Distribution in London
@@ -611,20 +607,11 @@ plt.show()
 
 These figures indicate that the majority of listings in London's core areas are not managed by home hosts but rather by professional operators operating multiple units, which indicates a large-scale short-term rental business model.
 
-**Conclusion**
-
-Overall, Airbnb activity is highly concentrated in central and inner-west London, while suburban boroughs exhibit much lower densities (@shabrina_airbnb_2022). This suggests that the Airbnb-related housing pressure is not city-wide, but concentrated in a limited number of strategic hotspots. At the borough level, Airbnb in London therefore exhibits characteristics of being “out of control” in a spatially concentrated and professionalised manner, with disproportionate impacts on long-term housing availability in central areas.
-
 
 
 ### 1.5 MSOA-Level Airbnb Activity in Westminster
 
 As shown in the map above, Westminster has the highest concentration of listings, so we zoom in this area for a more detailed MSOA-Level Airbnb Activity analysis.
-
-**Assumption**
-
- We assume that extreme clustering at the MSOA level indicates intensive, potentially commercial short-term rental activity rather than dispersed home-sharing. Listing counts were calculated by spatially joining Airbnb listings to Westminster MSOAs following geometric clipping.
-
 
 ```{python}
 #Only take the Borough polygon from Westminster.
@@ -712,10 +699,6 @@ This pattern indicates that Airbnb activity in Westminster is intensely localise
 
 To identify distinct neighbourhood-level patterns of Airbnb activity in London, we classify MSOAs using clustering based on three indicators: listing density, average price, and the share of listings exceeding the 90-day threshold.
 
-**Assumption**
-
-We assume that these three variables capture the core dimensions of Airbnb intensity and commercialisation at the neighbourhood scale. A three-cluster k-means solution is used to balance interpretability with sufficient differentiation across MSOAs.
-
 
 ```{python}
 #features for clustering
@@ -789,11 +772,11 @@ ax.set_title("MSOA-level Airbnb Typologies (Clustering)")
 plt.show()
 ```
 
-The clustering reveals three distinct Airbnb typologies. The high-intensity cluster is concentrated in central London and combines high listing densities, higher prices, and elevated rates of 90-day exceedance, indicating areas where Airbnb operates most clearly as a large-scale commercial activity. A second, medium-intensity cluster shows lower listing densities and prices but the highest share of listings exceeding 90 days, suggesting more “embedded” commercial use within residential neighbourhoods. This pattern aligns with findings by @barron_effect_2021 that housing impacts arise when dwellings are persistently shifted from long-term to short-term rental use, even outside prime tourist zones. The low-intensity cluster, covering much of suburban London, exhibits fewer listings, moderate prices, and lower exceedance rates, closely reflecting casual home-sharing.
+The clustering reveals three distinct Airbnb typologies. The high-intensity cluster is concentrated in central London and combines high listing densities, higher prices, and elevated rates of 90-day exceedance, indicating areas where Airbnb operates most clearly as a large-scale commercial activity. This pattern aligns with findings by @barron_effect_2021 that housing impacts arise when dwellings are persistently shifted from long-term to short-term rental use, even outside prime tourist zones. 
 
 **Conclusion**
 
-This MSOA-level typology confirms that Airbnb operates differently across neighbourhoods. High- and medium-intensity clusters identify where Airbnb is most likely to function as a sustained business activity, suggesting that area-specific regulatory responses are more appropriate than uniform city-wide measures.
+High- and medium-intensity clusters identify where Airbnb is most likely to function as a sustained business activity, suggesting that area-specific regulatory responses are more appropriate than uniform city-wide measures.
  
 
 ### 1.7 Overall Conclusion
